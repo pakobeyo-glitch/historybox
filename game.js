@@ -2137,6 +2137,3 @@ updateCountryList();
 updateCityList();
 
 resizeCanvas();
-resizeCanvas();
-
-drawMap();
