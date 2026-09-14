@@ -1,35 +1,408 @@
+* {
+  box-sizing: border-box;
+  }
+
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #222;
-    color: white;
+
+```
+margin: 0;
+
+background: #1b1d20;
+
+color: white;
+
+font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+overflow: hidden;
+```
+
 }
 
-h1 {
-    text-align: center;
+/* =========================
+HLAVIČKA
+========================= */
+
+header {
+
+```
+height: 65px;
+
+background: #25282c;
+
+border-bottom: 2px solid #111;
+
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+padding: 0 20px;
+```
+
 }
 
-.toolbar {
-    padding: 15px;
-    background: #333;
-    text-align: center;
+.logo {
+
+```
+font-size: 22px;
+
+font-weight: bold;
+```
+
 }
+
+.header-buttons button {
+
+```
+margin-left: 8px;
+```
+
+}
+
+/* =========================
+TLAČIDLÁ
+========================= */
 
 button {
-    margin: 4px;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+
+```
+border: 1px solid #555;
+
+background: #353a40;
+
+color: white;
+
+padding: 10px 12px;
+
+margin: 3px;
+
+border-radius: 6px;
+
+cursor: pointer;
+
+font-size: 14px;
+```
+
 }
 
 button:hover {
-    background: #ddd;
+
+```
+background: #4a5057;
+```
+
 }
 
-canvas {
-    display: block;
-    margin: 20px auto;
-    border: 2px solid white;
-    cursor: crosshair;
+button.active {
+
+```
+background: #607d8b;
+
+border-color: white;
+```
+
+}
+
+/* =========================
+HLAVNÉ ROZLOŽENIE
+========================= */
+
+main {
+
+```
+display: flex;
+
+height: calc(100vh - 65px);
+```
+
+}
+
+/* =========================
+SIDEBAR
+========================= */
+
+.sidebar {
+
+```
+width: 250px;
+
+min-width: 250px;
+
+background: #292d32;
+
+border-right: 2px solid #111;
+
+padding: 15px;
+
+overflow-y: auto;
+```
+
+}
+
+.sidebar section {
+
+```
+margin-bottom: 20px;
+
+padding-bottom: 15px;
+
+border-bottom: 1px solid #454a50;
+```
+
+}
+
+.sidebar h2 {
+
+```
+font-size: 14px;
+
+color: #aaa;
+
+margin: 5px 0 10px;
+
+letter-spacing: 1px;
+```
+
+}
+
+.layer-button {
+
+```
+width: 100%;
+
+text-align: left;
+
+font-weight: bold;
+
+font-size: 15px;
+
+padding: 13px;
+```
+
+}
+
+.terrain-button {
+
+```
+width: 100%;
+
+text-align: left;
+```
+
+}
+
+/* =========================
+SLIDER
+========================= */
+
+.slider-label {
+
+```
+display: block;
+
+margin-top: 12px;
+
+color: #ccc;
+
+font-size: 13px;
+```
+
+}
+
+#brushSize {
+
+```
+width: 100%;
+
+margin-top: 8px;
+```
+
+}
+
+#brushSizeValue {
+
+```
+display: inline-block;
+
+margin-top: 5px;
+```
+
+}
+
+/* =========================
+OBLASTI / KRAJINY
+========================= */
+
+.area-item,
+.country-item {
+
+```
+padding: 10px;
+
+margin-top: 5px;
+
+border-radius: 5px;
+
+background: #343940;
+
+cursor: pointer;
+```
+
+}
+
+.area-item:hover,
+.country-item:hover {
+
+```
+background: #454b52;
+```
+
+}
+
+.country-color {
+
+```
+display: inline-block;
+
+width: 14px;
+
+height: 14px;
+
+border-radius: 50%;
+
+margin-right: 7px;
+
+vertical-align: middle;
+```
+
+}
+
+/* =========================
+MAPA
+========================= */
+
+.map-container {
+
+```
+position: relative;
+
+flex: 1;
+
+overflow: hidden;
+
+background: #111;
+```
+
+}
+
+#mapCanvas {
+
+```
+position: absolute;
+
+left: 0;
+
+top: 0;
+
+cursor: crosshair;
+```
+
+}
+
+/* =========================
+INFO NA MAPE
+========================= */
+
+.map-info {
+
+```
+position: absolute;
+
+bottom: 15px;
+
+left: 15px;
+
+padding: 10px 15px;
+
+background: rgba(0, 0, 0, 0.75);
+
+border-radius: 7px;
+
+font-size: 13px;
+```
+
+}
+
+.map-info span {
+
+```
+margin-right: 20px;
+```
+
+}
+
+/* =========================
+ZOOM
+========================= */
+
+.zoom-controls {
+
+```
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+gap: 8px;
+```
+
+}
+
+.zoom-controls button {
+
+```
+width: 40px;
+
+height: 35px;
+
+font-size: 20px;
+```
+
+}
+
+#zoomValue {
+
+```
+min-width: 50px;
+
+text-align: center;
+```
+
+}
+
+#resetView {
+
+```
+width: 100%;
+
+margin-top: 8px;
+```
+
+}
+
+/* =========================
+SKRYTÉ PANELY
+========================= */
+
+.hidden {
+
+```
+display: none;
+```
+
 }
