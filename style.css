@@ -1,569 +1,354 @@
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #111827;
-    color: #f3f4f6;
+    margin: 0;
+    background: #1b1b1b;
+    color: #eee;
+    font-family: Arial, sans-serif;
     overflow: hidden;
 }
 
-#app {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-
-/* ============================= */
-/* HORNÁ LIŠTA */
-/* ============================= */
-
 header {
-    height: 72px;
-    background: #1f2937;
-    border-bottom: 1px solid #374151;
+    height: 70px;
+    background: #252525;
+    border-bottom: 1px solid #444;
 
     display: flex;
     align-items: center;
+    gap: 25px;
 
     padding: 0 20px;
-    gap: 30px;
-
-    z-index: 10;
 }
 
 header h1 {
-    font-size: 22px;
+    margin: 0;
     white-space: nowrap;
+    font-size: 22px;
 }
 
-.top-buttons {
+.layers {
     display: flex;
     gap: 8px;
-    height: 100%;
-    align-items: center;
+    flex-wrap: wrap;
 }
 
-.layer-button {
-    height: 44px;
-    padding: 0 18px;
-
-    border: 1px solid #4b5563;
-    border-radius: 8px;
-
-    background: #374151;
-    color: #d1d5db;
-
+.layer-btn {
+    border: none;
+    padding: 11px 14px;
+    background: #333;
+    color: #ddd;
+    border-radius: 6px;
     cursor: pointer;
-
-    font-size: 14px;
     font-weight: bold;
-
-    transition: 0.15s;
 }
 
-.layer-button:hover {
-    background: #4b5563;
+.layer-btn:hover {
+    background: #444;
 }
 
-.layer-button.active {
-    background: #2563eb;
+.layer-btn.active {
+    background: #666;
     color: white;
-    border-color: #60a5fa;
-
-    box-shadow:
-        0 0 0 2px rgba(96, 165, 250, 0.2);
 }
 
 
-/* ============================= */
-/* HLAVNÁ ČASŤ */
-/* ============================= */
-
-main {
-    flex: 1;
+.main {
     display: flex;
-    min-height: 0;
+    height: calc(100vh - 70px);
 }
 
-
-/* ============================= */
-/* SIDEBAR */
-/* ============================= */
 
 #sidebar {
-    width: 280px;
-    min-width: 280px;
+    width: 290px;
+    min-width: 290px;
+    background: #242424;
+    border-right: 1px solid #444;
 
-    background: #1f2937;
-    border-right: 1px solid #374151;
-
-    padding: 18px;
-
+    padding: 15px;
     overflow-y: auto;
 }
 
+
 .layer-panel h2 {
-    font-size: 20px;
-    margin-bottom: 8px;
+    margin-top: 0;
 }
 
-.description {
-    color: #9ca3af;
-    font-size: 13px;
-    line-height: 1.4;
-    margin-bottom: 15px;
+.layer-panel h3 {
+    margin-bottom: 8px;
+    color: #ccc;
 }
+
 
 .hidden {
-    display: none !important;
+    display: none;
 }
 
 
-/* ============================= */
-/* ZOZNAMY */
-/* ============================= */
-
-.item-list {
+.terrain-list,
+.area-list,
+.country-list,
+.city-list {
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 6px;
+    margin-bottom: 20px;
 }
 
-.terrain-item,
-.area-item,
-.country-item {
 
+.terrain-btn,
+.area-btn,
+.country-btn,
+.city-btn {
     width: 100%;
-    min-height: 42px;
+    border: 1px solid #555;
+    background: #303030;
+    color: #eee;
 
-    padding: 8px 12px;
-
-    border-radius: 7px;
-    border: 1px solid #374151;
-
-    background: #273244;
-    color: #e5e7eb;
+    padding: 10px;
+    border-radius: 5px;
 
     cursor: pointer;
-
     text-align: left;
-    font-size: 14px;
+}
 
+
+.terrain-btn:hover,
+.area-btn:hover,
+.country-btn:hover,
+.city-btn:hover {
+    background: #3d3d3d;
+}
+
+
+.terrain-btn.active,
+.area-btn.active,
+.country-btn.active,
+.city-btn.active {
+    outline: 2px solid white;
+}
+
+
+.tools {
     display: flex;
-    align-items: center;
-    gap: 9px;
-
-    transition: 0.15s;
-}
-
-.terrain-item:hover,
-.area-item:hover,
-.country-item:hover {
-    background: #374151;
-}
-
-.terrain-item.selected,
-.area-item.selected,
-.country-item.selected {
-
-    border-color: #60a5fa;
-
-    background: #1d4ed8;
-
-    color: white;
-
-    box-shadow:
-        0 0 0 1px #60a5fa;
+    gap: 7px;
+    margin-bottom: 12px;
 }
 
 
-/* ============================= */
-/* FARBA */
-/* ============================= */
-
-.color-preview {
-    width: 20px;
-    height: 20px;
-
-    border-radius: 4px;
-
-    border: 1px solid rgba(255,255,255,0.4);
-
-    flex-shrink: 0;
-}
-
-
-/* ============================= */
-/* VYTVÁRANIE */
-/* ============================= */
-
-.create-button {
-
-    width: 100%;
-
-    padding: 11px;
-
-    margin-bottom: 15px;
-
-    border: none;
-    border-radius: 7px;
-
-    background: #059669;
-    color: white;
-
-    font-size: 14px;
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-.create-button:hover {
-    background: #10b981;
-}
-
-
-/* ============================= */
-/* NÁSTROJE */
-/* ============================= */
-
-.tool-section {
-
-    margin-top: 25px;
-
-    padding-top: 15px;
-
-    border-top: 1px solid #374151;
-}
-
-.tool-section h3,
-.common-section h3 {
-
-    font-size: 14px;
-
-    color: #d1d5db;
-
-    margin-bottom: 10px;
-}
-
-.tool-button {
-
-    width: 100%;
-
-    padding: 10px;
-
-    margin-bottom: 7px;
-
-    border: 1px solid #374151;
-
-    border-radius: 7px;
-
-    background: #273244;
-
-    color: #d1d5db;
-
-    cursor: pointer;
-}
-
-.tool-button:hover {
-    background: #374151;
-}
-
-.tool-button.active {
-
-    background: #4b5563;
-
-    border-color: #9ca3af;
-
-    color: white;
-}
-
-
-/* ============================= */
-/* VEĽKOSŤ ŠTETCA */
-/* ============================= */
-
-.brush-section {
-
-    margin-top: 10px;
-
-    padding: 12px;
-
-    background: #273244;
-
-    border-radius: 7px;
-}
-
-.brush-section label {
-
-    display: block;
-
-    font-size: 13px;
-
-    color: #d1d5db;
-
-    margin-bottom: 8px;
-}
-
-#brushSize,
-#areaBrushSize {
-    width: 100%;
-}
-
-
-/* ============================= */
-/* ULOŽENIE */
-/* ============================= */
-
-.common-section {
-
-    margin-top: 30px;
-
-    padding-top: 15px;
-
-    border-top: 1px solid #374151;
-}
-
-.normal-button {
-
-    width: 100%;
-
-    padding: 10px;
-
-    margin-bottom: 7px;
-
-    border: 1px solid #4b5563;
-
-    border-radius: 7px;
-
-    background: #273244;
-
-    color: #e5e7eb;
-
-    cursor: pointer;
-}
-
-.normal-button:hover {
-    background: #374151;
-}
-
-.normal-button.danger:hover {
-
-    background: #991b1b;
-
-    border-color: #ef4444;
-}
-
-
-/* ============================= */
-/* PRÁZDNY ZOZNAM */
-/* ============================= */
-
-.empty-message {
-
-    color: #6b7280;
-
-    font-size: 13px;
-
-    text-align: center;
-
-    padding: 20px 5px;
-}
-
-
-/* ============================= */
-/* MAPA */
-/* ============================= */
-
-#mapArea {
-
+.tool-btn {
     flex: 1;
 
-    position: relative;
+    border: 1px solid #555;
+    background: #303030;
+    color: #eee;
 
-    overflow: hidden;
+    padding: 9px;
+    border-radius: 5px;
 
-    background: #0b1120;
+    cursor: pointer;
 }
 
-#canvasContainer {
 
+.tool-btn:hover {
+    background: #414141;
+}
+
+
+.tool-btn.active {
+    background: #666;
+    border-color: #aaa;
+}
+
+
+.main-action {
     width: 100%;
-    height: 100%;
 
+    background: #4a4a4a;
+    color: white;
+
+    border: 1px solid #666;
+    border-radius: 5px;
+
+    padding: 11px;
+    margin-bottom: 12px;
+
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+.main-action:hover {
+    background: #5a5a5a;
+}
+
+
+.brush-label {
+    display: block;
+    margin-bottom: 6px;
+    color: #ccc;
+}
+
+
+input[type="range"] {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+
+.info {
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+
+.infra-section {
+    border-top: 1px solid #444;
+    padding-top: 10px;
+    margin-top: 15px;
+}
+
+
+.common-section {
+    border-top: 1px solid #444;
+    margin-top: 20px;
+    padding-top: 15px;
+}
+
+
+.save-btn,
+.load-btn,
+.danger-btn {
+    width: 100%;
+
+    display: block;
+    text-align: center;
+
+    padding: 10px;
+    margin-bottom: 8px;
+
+    border-radius: 5px;
+    border: 1px solid #555;
+
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+.save-btn {
+    background: #365d3d;
+    color: white;
+}
+
+.load-btn {
+    background: #3b4e65;
+    color: white;
+}
+
+.danger-btn {
+    background: #633636;
+    color: white;
+}
+
+
+#gameArea {
+    position: relative;
+    flex: 1;
     overflow: hidden;
+    background: #111;
+}
 
+
+#gameCanvas {
+    display: block;
     cursor: crosshair;
 }
 
-#mapCanvas {
-    display: block;
-    background: #0f172a;
-}
 
-
-/* ============================= */
-/* INFO */
-/* ============================= */
-
-#mapInfo {
-
+#coordinates {
     position: absolute;
+    left: 15px;
+    top: 15px;
 
-    top: 12px;
-    left: 12px;
-    right: 12px;
+    z-index: 10;
 
-    height: 38px;
+    background: rgba(0, 0, 0, 0.75);
+    padding: 7px 10px;
 
-    background: rgba(17, 24, 39, 0.9);
-
-    border: 1px solid #374151;
-
-    border-radius: 7px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding: 0 13px;
-
-    font-size: 13px;
-
-    color: #d1d5db;
-
-    z-index: 5;
+    border-radius: 5px;
 
     pointer-events: none;
 }
 
 
-/* ============================= */
-/* ZOOM */
-/* ============================= */
-
-#zoomControls {
-
+.zoom-controls {
     position: absolute;
-
     right: 15px;
     bottom: 15px;
 
     display: flex;
-
     align-items: center;
-
     gap: 5px;
 
-    background: rgba(17, 24, 39, 0.95);
+    background: rgba(0, 0, 0, 0.75);
+    padding: 6px;
 
-    border: 1px solid #374151;
-
-    border-radius: 8px;
-
-    padding: 5px;
+    border-radius: 6px;
 }
 
-#zoomControls button {
 
+.zoom-controls button {
     width: 35px;
-    height: 35px;
+    height: 32px;
 
-    border: none;
-
-    border-radius: 5px;
-
-    background: #374151;
-
+    border: 1px solid #555;
+    background: #333;
     color: white;
 
-    font-size: 20px;
+    border-radius: 4px;
 
     cursor: pointer;
 }
 
-#zoomControls button:hover {
-    background: #4b5563;
+
+.zoom-controls button:hover {
+    background: #444;
 }
+
 
 #zoomValue {
-
     min-width: 55px;
-
     text-align: center;
-
-    font-size: 13px;
-
-    color: #d1d5db;
 }
 
-
-/* ============================= */
-/* SCROLLBAR */
-/* ============================= */
-
-#sidebar::-webkit-scrollbar {
-    width: 8px;
-}
-
-#sidebar::-webkit-scrollbar-track {
-    background: #111827;
-}
-
-#sidebar::-webkit-scrollbar-thumb {
-
-    background: #374151;
-
-    border-radius: 5px;
-}
-
-#sidebar::-webkit-scrollbar-thumb:hover {
-    background: #4b5563;
-}
-
-
-/* ============================= */
-/* MOBIL */
-/* ============================= */
 
 @media (max-width: 900px) {
 
     header {
-
         height: auto;
-        min-height: 72px;
-
-        flex-wrap: wrap;
-
+        min-height: 70px;
+        flex-direction: column;
+        align-items: flex-start;
         padding: 10px;
     }
 
-    header h1 {
-        width: 100%;
-    }
-
-    .top-buttons {
-
-        width: 100%;
-
-        overflow-x: auto;
-    }
-
-    .layer-button {
-        white-space: nowrap;
+    .main {
+        height: calc(100vh - 120px);
     }
 
     #sidebar {
+        width: 250px;
+        min-width: 250px;
+    }
 
-        width: 230px;
-        min-width: 230px;
+    .layers {
+        width: 100%;
+    }
+
+    .layer-btn {
+        font-size: 11px;
     }
 }
         min-width: 230px;
