@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Môj svet</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Tvorba sveta</h1>
+
+    <div class="toolbar">
+
+        <h3>Terén</h3>
+
+        <button onclick="selectTerrain('sea')">🌊 More</button>
+        <button onclick="selectTerrain('lowland')">🟩 Nížina</button>
+        <button onclick="selectTerrain('forest')">🌲 Les</button>
+        <button onclick="selectTerrain('desert')">🏜️ Púšť</button>
+        <button onclick="selectTerrain('mountains')">⛰️ Hory</button>
+        <button onclick="selectTerrain('high_mountains')">🏔️ Veľhory</button>
+        <button onclick="selectTerrain('tundra')">🧊 Tundra</button>
+        <button onclick="selectTerrain('river')">💧 Rieka</button>
+
+        <hr>
+
+        <h3>Režim</h3>
+
+        <button onclick="setMode('terrain')">
+            Maľovať terén
+        </button>
+
+        <button onclick="setMode('area')">
+            Vytvárať oblasti
+        </button>
+
+        <button onclick="setMode('country')">
+            Maľovať krajiny
+        </button>
+
+        <hr>
+
+        <button onclick="createArea()">
+            + Nová oblasť
+        </button>
+
+        <button onclick="createCountry()">
+            + Nová krajina
+        </button>
+
+        <p id="status">
+            Režim: terén
+        </p>
+
+    </div>
+
+
+    <canvas id="map"></canvas>
+
+
+    <script src="game.js"></script>
+
+</body>
+</html>
