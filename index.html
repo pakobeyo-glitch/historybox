@@ -1,245 +1,276 @@
 <!DOCTYPE html>
-
 <html lang="sk">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+    <title>Môj svet</title>
 
-<title>Tvorba sveta</title>
-
-<link rel="stylesheet" href="style.css">
-```
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-```
-<!-- HLAVIČKA -->
+<div id="app">
 
-<header>
+    <!-- HORNÁ LIŠTA -->
+    <header>
 
-    <div class="logo">
-        🌍 TVORBA SVETA
-    </div>
+        <h1>🌍 MÔJ SVET</h1>
 
-    <div class="header-buttons">
+        <div class="top-buttons">
 
-        <button id="saveButton">
-            💾 Uložiť
-        </button>
-
-        <button id="loadButton">
-            📂 Načítať
-        </button>
-
-        <button id="clearButton">
-            🗑️ Vymazať
-        </button>
-
-    </div>
-
-</header>
-
-
-<!-- HLAVNÉ ROZHRANIE -->
-
-<main>
-
-    <!-- ĽAVÝ PANEL -->
-
-    <aside class="sidebar">
-
-
-        <!-- VRSTVY -->
-
-        <section>
-
-            <h2>VRSTVY</h2>
-
-            <button
-                class="layer-button active"
-                id="terrainLayer"
-            >
-                🟢 TERÉN
+            <button id="terrainModeBtn" class="layer-button active">
+                🟢 UPRAVOVAŤ TERÉN
             </button>
 
-            <button
-                class="layer-button"
-                id="areaLayer"
-            >
-                🟠 OBLASTI
+            <button id="areaModeBtn" class="layer-button">
+                🟠 MAĽOVAŤ OBLASTI
             </button>
 
-            <button
-                class="layer-button"
-                id="countryLayer"
-            >
-                🔴 KRAJINY
+            <button id="countryModeBtn" class="layer-button">
+                🔴 MAĽOVAŤ KRAJINY
             </button>
 
-        </section>
+        </div>
+
+    </header>
 
 
-        <!-- TERÉNY -->
+    <!-- HLAVNÁ ČASŤ -->
+    <main>
 
-        <section id="terrainPanel">
+        <!-- BOČNÝ PANEL -->
+        <aside id="sidebar">
 
-            <h2>TERÉNY</h2>
+            <!-- ========================= -->
+            <!-- TERÉN -->
+            <!-- ========================= -->
 
-            <button
-                class="terrain-button"
-                data-terrain="sea"
-            >
-                🌊 More
-            </button>
+            <section id="terrainLayer" class="layer-panel">
 
-            <button
-                class="terrain-button"
-                data-terrain="lowland"
-            >
-                🟩 Nížina
-            </button>
+                <h2>🌱 Terén</h2>
 
-            <button
-                class="terrain-button"
-                data-terrain="forest"
-            >
-                🌲 Les
-            </button>
+                <p class="description">
+                    Vyber typ terénu a maľuj ním mapu.
+                </p>
 
-            <button
-                class="terrain-button"
-                data-terrain="desert"
-            >
-                🟨 Púšť
-            </button>
+                <div id="terrainList" class="item-list">
 
-            <button
-                class="terrain-button"
-                data-terrain="mountains"
-            >
-                ⛰️ Hory
-            </button>
+                    <button class="terrain-item selected"
+                            data-terrain="sea">
+                        🌊 More
+                    </button>
 
-            <button
-                class="terrain-button"
-                data-terrain="high_mountains"
-            >
-                🏔️ Veľhory
-            </button>
+                    <button class="terrain-item"
+                            data-terrain="river">
+                        💧 Rieka
+                    </button>
 
-            <button
-                class="terrain-button"
-                data-terrain="tundra"
-            >
-                🧊 Tundra
-            </button>
+                    <button class="terrain-item"
+                            data-terrain="lowland">
+                        🌾 Nížina
+                    </button>
 
-            <button
-                class="terrain-button"
-                data-terrain="river"
-            >
-                💧 Rieka
-            </button>
+                    <button class="terrain-item"
+                            data-terrain="forest">
+                        🌲 Les
+                    </button>
 
-        </section>
+                    <button class="terrain-item"
+                            data-terrain="desert">
+                        🏜️ Púšť
+                    </button>
+
+                    <button class="terrain-item"
+                            data-terrain="mountains">
+                        ⛰️ Hory
+                    </button>
+
+                    <button class="terrain-item"
+                            data-terrain="high_mountains">
+                        🏔️ Vysoké hory
+                    </button>
+
+                    <button class="terrain-item"
+                            data-terrain="tundra">
+                        ❄️ Tundra
+                    </button>
+
+                </div>
 
 
-        <!-- NÁSTROJE -->
+                <div class="tool-section">
 
-        <section>
+                    <h3>Nástroje</h3>
 
-            <h2>NÁSTROJE</h2>
+                    <button id="brushBtn" class="tool-button active">
+                        🖌️ Štetec
+                    </button>
 
-            <button id="brushButton">
-                🖌️ Štetec
-            </button>
+                    <button id="eraserBtn" class="tool-button">
+                        🧹 Guma
+                    </button>
 
-            <button id="eraserButton">
-                🧹 Guma
-            </button>
+                </div>
 
-            <label class="slider-label">
 
-                Veľkosť štetca
+                <div class="brush-section">
+
+                    <label for="brushSize">
+                        Veľkosť štetca:
+                        <strong id="brushSizeValue">1</strong>
+                    </label>
+
+                    <input
+                        type="range"
+                        id="brushSize"
+                        min="1"
+                        max="10"
+                        value="1"
+                    >
+
+                </div>
+
+            </section>
+
+
+            <!-- ========================= -->
+            <!-- OBLASTI -->
+            <!-- ========================= -->
+
+            <section id="areaLayer"
+                     class="layer-panel hidden">
+
+                <h2>🗺️ Oblasti</h2>
+
+                <p class="description">
+                    Vyber oblasť a kliknutím na mapu jej priraď políčka.
+                </p>
+
+                <button id="newAreaBtn" class="create-button">
+                    ➕ Nová oblasť
+                </button>
+
+                <div id="areaList" class="item-list">
+
+                    <p class="empty-message">
+                        Zatiaľ nemáš žiadne oblasti.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- ========================= -->
+            <!-- KRAJINY -->
+            <!-- ========================= -->
+
+            <section id="countryLayer"
+                     class="layer-panel hidden">
+
+                <h2>🏳️ Krajiny</h2>
+
+                <p class="description">
+                    Vyber krajinu a klikni na oblasť, ktorú jej chceš priradiť.
+                </p>
+
+                <button id="newCountryBtn" class="create-button">
+                    ➕ Nová krajina
+                </button>
+
+                <div id="countryList" class="item-list">
+
+                    <p class="empty-message">
+                        Zatiaľ nemáš žiadne krajiny.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- ========================= -->
+            <!-- SPOLOČNÉ OVLÁDANIE -->
+            <!-- ========================= -->
+
+            <section class="common-section">
+
+                <h3>💾 Svet</h3>
+
+                <button id="saveBtn" class="normal-button">
+                    💾 Uložiť svet
+                </button>
+
+                <button id="loadBtn" class="normal-button">
+                    📂 Načítať svet
+                </button>
+
+                <button id="clearBtn" class="normal-button danger">
+                    🗑️ Vymazať mapu
+                </button>
 
                 <input
-                    type="range"
-                    id="brushSize"
-                    min="1"
-                    max="8"
-                    value="1"
+                    type="file"
+                    id="loadFile"
+                    accept=".json"
+                    hidden
                 >
 
-                <span id="brushSizeValue">
-                    1
+            </section>
+
+        </aside>
+
+
+        <!-- MAPA -->
+        <section id="mapArea">
+
+            <div id="mapInfo">
+
+                <span id="currentModeText">
+                    Režim: Upravovať terén
                 </span>
 
-            </label>
+                <span id="mapCoordinates">
+                    X: - | Y: -
+                </span>
 
-        </section>
-
-
-        <!-- OBLASTI -->
-
-        <section id="areaPanel" class="hidden">
-
-            <h2>OBLASTI</h2>
-
-            <button id="newAreaButton">
-                ➕ Nová oblasť
-            </button>
-
-            <div id="areaList"></div>
-
-        </section>
+            </div>
 
 
-        <!-- KRAJINY -->
+            <div id="canvasContainer">
 
-        <section id="countryPanel" class="hidden">
+                <canvas id="mapCanvas"></canvas>
 
-            <h2>KRAJINY</h2>
-
-            <button id="newCountryButton">
-                ➕ Nová krajina
-            </button>
-
-            <div id="countryList"></div>
-
-        </section>
+            </div>
 
 
-        <!-- ZOOM -->
+            <!-- ZOOM -->
+            <div id="zoomControls">
 
-        <section>
-
-            <h2>MAPA</h2>
-
-            <div class="zoom-controls">
-
-                <button id="zoomOut">
-                    −
-                </button>
+                <button id="zoomOut">−</button>
 
                 <span id="zoomValue">
                     100%
                 </span>
 
-                <button id="zoomIn">
-                    +
+                <button id="zoomIn">+</button>
+
+                <button id="resetView">
+                    ⟳
                 </button>
 
             </div>
 
-            <button id="resetView">
-                🎯 Celá mapa
-```
+        </section>
 
+    </main>
+
+</div>
+
+
+<script src="game.js"></script>
+
+</body>
+</html>
