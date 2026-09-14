@@ -1,5 +1,5 @@
 /* =========================================
-   NASTAVENIE MAPY
+   NASTAVENIE
 ========================================= */
 
 const TILE_SIZE = 32;
@@ -12,10 +12,14 @@ const MAP_HEIGHT = 50;
    CANVAS
 ========================================= */
 
-const canvas = document.getElementById("mapCanvas");
-const ctx = canvas.getContext("2d");
+const canvas =
+    document.getElementById("mapCanvas");
 
-const canvasContainer = document.getElementById("canvasContainer");
+const ctx =
+    canvas.getContext("2d");
+
+const canvasContainer =
+    document.getElementById("canvasContainer");
 
 
 /* =========================================
@@ -74,11 +78,12 @@ const terrainTypes = {
 let world = [];
 
 let areas = {};
+
 let countries = {};
 
 
 /* =========================================
-   VYTVORENIE PRÁZDNEJ MAPY
+   VYTVORENIE MAPY
 ========================================= */
 
 function createWorld() {
@@ -104,12 +109,14 @@ function createWorld() {
         }
 
         world.push(row);
+
     }
+
 }
 
 
 /* =========================================
-   NASTAVENIE REŽIMU
+   REŽIM
 ========================================= */
 
 let currentLayer = "terrain";
@@ -127,60 +134,77 @@ let selectedCountry = null;
 
 let currentTool = "brush";
 
-let brushSize = 1;
+let terrainBrushSize = 1;
+
+let areaBrushSize = 1;
 
 
 /* =========================================
-   ZOOM A POSUN
+   ZOOM
 ========================================= */
 
 let zoom = 1;
 
 let offsetX = 50;
+
 let offsetY = 70;
 
 let isPanning = false;
 
 let panStartX = 0;
+
 let panStartY = 0;
 
-let originalOffsetX = 50;
-let originalOffsetY = 70;
+const originalOffsetX = 50;
+
+const originalOffsetY = 70;
 
 
 /* =========================================
-   NASTAVENIE CANVASU
+   CANVAS
 ========================================= */
 
 function resizeCanvas() {
 
-    canvas.width = canvasContainer.clientWidth;
-    canvas.height = canvasContainer.clientHeight;
+    canvas.width =
+        canvasContainer.clientWidth;
+
+    canvas.height =
+        canvasContainer.clientHeight;
 
     drawMap();
+
 }
 
-
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
 
 
 /* =========================================
-   PREVOD MYŠ → DLAŽDICA
+   MYŠ → DLAŽDICA
 ========================================= */
 
 function getTileFromMouse(event) {
 
-    const rect = canvas.getBoundingClientRect();
+    const rect =
+        canvas.getBoundingClientRect();
 
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
+    const mouseX =
+        event.clientX - rect.left;
+
+    const mouseY =
+        event.clientY - rect.top;
 
     const x = Math.floor(
-        (mouseX - offsetX) / (TILE_SIZE * zoom)
+        (mouseX - offsetX) /
+        (TILE_SIZE * zoom)
     );
 
     const y = Math.floor(
-        (mouseY - offsetY) / (TILE_SIZE * zoom)
+        (mouseY - offsetY) /
+        (TILE_SIZE * zoom)
     );
 
     if (
@@ -194,12 +218,16 @@ function getTileFromMouse(event) {
 
     }
 
-    return { x, y };
+    return {
+        x: x,
+        y: y
+    };
+
 }
 
 
 /* =========================================
-   VYKRESLENIE MAPY
+   VYKRESLENIE
 ========================================= */
 
 function drawMap() {
@@ -211,9 +239,6 @@ function drawMap() {
         canvas.height
     );
 
-
-    /* Pozadie */
-
     ctx.fillStyle = "#0b1120";
 
     ctx.fillRect(
@@ -224,25 +249,32 @@ function drawMap() {
     );
 
 
-    const tilePixelSize = TILE_SIZE * zoom;
+    const tilePixelSize =
+        TILE_SIZE * zoom;
 
-
-    /* Dlaždice */
 
     for (let y = 0; y < MAP_HEIGHT; y++) {
 
         for (let x = 0; x < MAP_WIDTH; x++) {
 
-            const tile = world[y][x];
+            const tile =
+                world[y][x];
 
-            const px = offsetX + x * tilePixelSize;
-            const py = offsetY + y * tilePixelSize;
+            const px =
+                offsetX +
+                x * tilePixelSize;
+
+            const py =
+                offsetY +
+                y * tilePixelSize;
 
 
             /* TERÉN */
 
             ctx.fillStyle =
-                terrainTypes[tile.terrain].color;
+                terrainTypes[
+                    tile.terrain
+                ].color;
 
             ctx.fillRect(
                 px,
@@ -252,7 +284,7 @@ function drawMap() {
             );
 
 
-            /* OBLASTI */
+            /* OBLASŤ */
 
             if (
                 currentLayer === "area" ||
@@ -267,7 +299,10 @@ function drawMap() {
                     if (area) {
 
                         ctx.fillStyle =
-                            hexToRgba(area.color, 0.35);
+                            hexToRgba(
+                                area.color,
+                                0.35
+                            );
 
                         ctx.fillRect(
                             px,
@@ -283,7 +318,7 @@ function drawMap() {
             }
 
 
-            /* KRAJINY */
+            /* KRAJINA */
 
             if (currentLayer === "country") {
 
@@ -295,7 +330,10 @@ function drawMap() {
                     if (country) {
 
                         ctx.fillStyle =
-                            hexToRgba(country.color, 0.45);
+                            hexToRgba(
+                                country.color,
+                                0.45
+                            );
 
                         ctx.fillRect(
                             px,
@@ -330,8 +368,6 @@ function drawMap() {
     }
 
 
-    /* HRANICE OBLASTÍ */
-
     if (
         currentLayer === "area" ||
         currentLayer === "country"
@@ -342,16 +378,12 @@ function drawMap() {
     }
 
 
-    /* NÁZVY OBLASTÍ */
-
     if (currentLayer === "area") {
 
         drawAreaNames();
 
     }
 
-
-    /* NÁZVY KRAJÍN */
 
     if (currentLayer === "country") {
 
@@ -368,40 +400,44 @@ function drawMap() {
 
 function drawAreaBorders() {
 
-    const tilePixelSize = TILE_SIZE * zoom;
+    const size =
+        TILE_SIZE * zoom;
 
-    ctx.lineWidth = Math.max(1, 2 * zoom);
+    ctx.lineWidth =
+        Math.max(1, 2 * zoom);
 
     for (let y = 0; y < MAP_HEIGHT; y++) {
 
         for (let x = 0; x < MAP_WIDTH; x++) {
 
-            const tile = world[y][x];
+            const tile =
+                world[y][x];
 
             if (!tile.area) {
                 continue;
             }
 
 
-            /* pravá hranica */
+            /* PRAVÁ HRANICA */
 
             if (
                 x === MAP_WIDTH - 1 ||
                 world[y][x + 1].area !== tile.area
             ) {
 
-                ctx.strokeStyle = "#ff9f43";
+                ctx.strokeStyle =
+                    "#ff9f43";
 
                 ctx.beginPath();
 
                 ctx.moveTo(
-                    offsetX + (x + 1) * tilePixelSize,
-                    offsetY + y * tilePixelSize
+                    offsetX + (x + 1) * size,
+                    offsetY + y * size
                 );
 
                 ctx.lineTo(
-                    offsetX + (x + 1) * tilePixelSize,
-                    offsetY + (y + 1) * tilePixelSize
+                    offsetX + (x + 1) * size,
+                    offsetY + (y + 1) * size
                 );
 
                 ctx.stroke();
@@ -409,25 +445,26 @@ function drawAreaBorders() {
             }
 
 
-            /* spodná hranica */
+            /* SPODNÁ HRANICA */
 
             if (
                 y === MAP_HEIGHT - 1 ||
                 world[y + 1][x].area !== tile.area
             ) {
 
-                ctx.strokeStyle = "#ff9f43";
+                ctx.strokeStyle =
+                    "#ff9f43";
 
                 ctx.beginPath();
 
                 ctx.moveTo(
-                    offsetX + x * tilePixelSize,
-                    offsetY + (y + 1) * tilePixelSize
+                    offsetX + x * size,
+                    offsetY + (y + 1) * size
                 );
 
                 ctx.lineTo(
-                    offsetX + (x + 1) * tilePixelSize,
-                    offsetY + (y + 1) * tilePixelSize
+                    offsetX + (x + 1) * size,
+                    offsetY + (y + 1) * size
                 );
 
                 ctx.stroke();
@@ -453,15 +490,16 @@ function drawAreaNames() {
 
         for (let x = 0; x < MAP_WIDTH; x++) {
 
-            const areaId = world[y][x].area;
+            const id =
+                world[y][x].area;
 
-            if (!areaId) {
+            if (!id) {
                 continue;
             }
 
-            if (!positions[areaId]) {
+            if (!positions[id]) {
 
-                positions[areaId] = {
+                positions[id] = {
                     x: 0,
                     y: 0,
                     count: 0
@@ -469,9 +507,9 @@ function drawAreaNames() {
 
             }
 
-            positions[areaId].x += x;
-            positions[areaId].y += y;
-            positions[areaId].count++;
+            positions[id].x += x;
+            positions[id].y += y;
+            positions[id].count++;
 
         }
 
@@ -480,9 +518,11 @@ function drawAreaNames() {
 
     Object.keys(positions).forEach(id => {
 
-        const p = positions[id];
+        const p =
+            positions[id];
 
-        const area = areas[id];
+        const area =
+            areas[id];
 
         if (!area) {
             return;
@@ -531,16 +571,16 @@ function drawCountryNames() {
 
         for (let x = 0; x < MAP_WIDTH; x++) {
 
-            const countryId =
+            const id =
                 world[y][x].country;
 
-            if (!countryId) {
+            if (!id) {
                 continue;
             }
 
-            if (!positions[countryId]) {
+            if (!positions[id]) {
 
-                positions[countryId] = {
+                positions[id] = {
                     x: 0,
                     y: 0,
                     count: 0
@@ -548,9 +588,9 @@ function drawCountryNames() {
 
             }
 
-            positions[countryId].x += x;
-            positions[countryId].y += y;
-            positions[countryId].count++;
+            positions[id].x += x;
+            positions[id].y += y;
+            positions[id].count++;
 
         }
 
@@ -559,14 +599,15 @@ function drawCountryNames() {
 
     Object.keys(positions).forEach(id => {
 
-        const p = positions[id];
+        const p =
+            positions[id];
 
-        const country = countries[id];
+        const country =
+            countries[id];
 
         if (!country) {
             return;
         }
-
 
         const centerX =
             p.x / p.count;
@@ -603,7 +644,11 @@ function drawCountryNames() {
    TEXT NA MAPE
 ========================================= */
 
-function drawLabel(text, x, y) {
+function drawLabel(
+    text,
+    x,
+    y
+) {
 
     const fontSize =
         Math.max(10, 15 * zoom);
@@ -645,32 +690,50 @@ function drawLabel(text, x, y) {
    HEX → RGBA
 ========================================= */
 
-function hexToRgba(hex, alpha) {
+function hexToRgba(
+    hex,
+    alpha
+) {
 
     const value =
         hex.replace("#", "");
 
     const r =
-        parseInt(value.substring(0, 2), 16);
+        parseInt(
+            value.substring(0, 2),
+            16
+        );
 
     const g =
-        parseInt(value.substring(2, 4), 16);
+        parseInt(
+            value.substring(2, 4),
+            16
+        );
 
     const b =
-        parseInt(value.substring(4, 6), 16);
+        parseInt(
+            value.substring(4, 6),
+            16
+        );
 
     return `rgba(${r},${g},${b},${alpha})`;
+
 }
 
 
 /* =========================================
-   TERÉN
+   TERÉN – ŠTETEC
 ========================================= */
 
-function paintTerrain(x, y) {
+function paintTerrain(
+    x,
+    y
+) {
 
     const radius =
-        Math.floor(brushSize / 2);
+        Math.floor(
+            terrainBrushSize / 2
+        );
 
 
     for (
@@ -695,12 +758,16 @@ function paintTerrain(x, y) {
             }
 
 
-            if (currentTool === "eraser") {
+            if (
+                currentTool === "eraser"
+            ) {
 
                 world[yy][xx].terrain =
                     "lowland";
 
-            } else {
+            }
+
+            else {
 
                 world[yy][xx].terrain =
                     selectedTerrain;
@@ -715,58 +782,118 @@ function paintTerrain(x, y) {
 
 
 /* =========================================
-   OBLASŤ
+   OBLASŤ – ŠTETEC / GUMA
 ========================================= */
 
-function paintArea(x, y) {
+function paintArea(
+    x,
+    y
+) {
 
-    if (!selectedArea) {
-
-        alert(
-            "Najprv si vyber oblasť."
+    const radius =
+        Math.floor(
+            areaBrushSize / 2
         );
 
-        return;
 
-    }
-
-
-    const tile =
-        world[y][x];
-
-
-    /* Ak bola dlaždica v inej oblasti,
-       odstránime ju zo starej oblasti */
-
-    if (
-        tile.area &&
-        tile.area !== selectedArea
+    for (
+        let yy = y - radius;
+        yy <= y + radius;
+        yy++
     ) {
 
-        removeTileFromArea(
-            tile.area,
-            x,
-            y
-        );
+        for (
+            let xx = x - radius;
+            xx <= x + radius;
+            xx++
+        ) {
 
-    }
+            if (
+                xx < 0 ||
+                yy < 0 ||
+                xx >= MAP_WIDTH ||
+                yy >= MAP_HEIGHT
+            ) {
+                continue;
+            }
 
 
-    tile.area = selectedArea;
+            const tile =
+                world[yy][xx];
 
 
-    const area =
-        areas[selectedArea];
+            /* GUMA */
+
+            if (
+                currentTool === "eraser"
+            ) {
+
+                if (tile.area) {
+
+                    removeTileFromArea(
+                        tile.area,
+                        xx,
+                        yy
+                    );
+
+                }
+
+                tile.area = null;
+
+                continue;
+
+            }
 
 
-    if (!area.tiles.some(
-        t => t.x === x && t.y === y
-    )) {
+            /* ŠTETEC */
 
-        area.tiles.push({
-            x: x,
-            y: y
-        });
+            if (!selectedArea) {
+                continue;
+            }
+
+
+            /* Ak bola dlaždica
+               v inej oblasti,
+               odstránime ju odtiaľ */
+
+            if (
+                tile.area &&
+                tile.area !== selectedArea
+            ) {
+
+                removeTileFromArea(
+                    tile.area,
+                    xx,
+                    yy
+                );
+
+            }
+
+
+            tile.area =
+                selectedArea;
+
+
+            const area =
+                areas[selectedArea];
+
+
+            if (
+                !area.tiles.some(
+                    t =>
+                        t.x === xx &&
+                        t.y === yy
+                )
+            ) {
+
+                area.tiles.push({
+                    x: xx,
+                    y: yy
+                });
+
+            }
+
+        }
 
     }
 
@@ -794,7 +921,10 @@ function removeTileFromArea(
     areas[areaId].tiles =
         areas[areaId].tiles.filter(
             tile =>
-                !(tile.x === x && tile.y === y)
+                !(
+                    tile.x === x &&
+                    tile.y === y
+                )
         );
 
 }
@@ -804,7 +934,10 @@ function removeTileFromArea(
    KRAJINA
 ========================================= */
 
-function assignCountryToArea(x, y) {
+function assignCountryToArea(
+    x,
+    y
+) {
 
     if (!selectedCountry) {
 
@@ -832,11 +965,17 @@ function assignCountryToArea(x, y) {
     }
 
 
-    /* Celá oblasť dostane krajinu */
+    for (
+        let yy = 0;
+        yy < MAP_HEIGHT;
+        yy++
+    ) {
 
-    for (let yy = 0; yy < MAP_HEIGHT; yy++) {
-
-        for (let xx = 0; xx < MAP_WIDTH; xx++) {
+        for (
+            let xx = 0;
+            xx < MAP_WIDTH;
+            xx++
+        ) {
 
             if (
                 world[yy][xx].area === areaId
@@ -858,13 +997,15 @@ function assignCountryToArea(x, y) {
 
 
 /* =========================================
-   VYTVORENIE OBLASTI
+   NOVÁ OBLASŤ
 ========================================= */
 
 function createArea() {
 
     const name =
-        prompt("Zadaj názov oblasti:");
+        prompt(
+            "Zadaj názov oblasti:"
+        );
 
     if (!name) {
         return;
@@ -875,17 +1016,13 @@ function createArea() {
         "area_" + Date.now();
 
 
-    const color =
-        randomColor();
-
-
     areas[id] = {
 
         id: id,
 
         name: name,
 
-        color: color,
+        color: randomColor(),
 
         tiles: []
 
@@ -903,13 +1040,15 @@ function createArea() {
 
 
 /* =========================================
-   VYTVORENIE KRAJINY
+   NOVÁ KRAJINA
 ========================================= */
 
 function createCountry() {
 
     const name =
-        prompt("Zadaj názov krajiny:");
+        prompt(
+            "Zadaj názov krajiny:"
+        );
 
     if (!name) {
         return;
@@ -920,17 +1059,13 @@ function createCountry() {
         "country_" + Date.now();
 
 
-    const color =
-        randomColor();
-
-
     countries[id] = {
 
         id: id,
 
         name: name,
 
-        color: color
+        color: randomColor()
 
     };
 
@@ -946,7 +1081,7 @@ function createCountry() {
 
 
 /* =========================================
-   NÁHODNÁ FARBA
+   FARBY
 ========================================= */
 
 function randomColor() {
@@ -971,7 +1106,8 @@ function randomColor() {
 
     return colors[
         Math.floor(
-            Math.random() * colors.length
+            Math.random() *
+            colors.length
         )
     ];
 
@@ -985,7 +1121,9 @@ function randomColor() {
 function updateAreaList() {
 
     const list =
-        document.getElementById("areaList");
+        document.getElementById(
+            "areaList"
+        );
 
 
     list.innerHTML = "";
@@ -1014,14 +1152,18 @@ function updateAreaList() {
 
 
         const button =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
 
         button.className =
             "area-item";
 
 
-        if (id === selectedArea) {
+        if (
+            id === selectedArea
+        ) {
 
             button.classList.add(
                 "selected"
@@ -1072,7 +1214,9 @@ function updateAreaList() {
 function updateCountryList() {
 
     const list =
-        document.getElementById("countryList");
+        document.getElementById(
+            "countryList"
+        );
 
 
     list.innerHTML = "";
@@ -1101,14 +1245,18 @@ function updateCountryList() {
 
 
         const button =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
 
         button.className =
             "country-item";
 
 
-        if (id === selectedCountry) {
+        if (
+            id === selectedCountry
+        ) {
 
             button.classList.add(
                 "selected"
@@ -1158,27 +1306,52 @@ function updateCountryList() {
 
 function escapeHtml(text) {
 
-    return text
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    return String(text)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 
 }
 
 
 /* =========================================
-   PREPÍNANIE VRSTIEV
+   PREPÍNANIE REŽIMOV
 ========================================= */
 
-function setLayer(layer) {
+function setLayer(
+    layer
+) {
 
-    currentLayer = layer;
+    currentLayer =
+        layer;
 
 
     document
-        .getElementById("terrainLayer")
+        .getElementById(
+            "terrainLayer"
+        )
         .classList.toggle(
             "hidden",
             layer !== "terrain"
@@ -1186,7 +1359,9 @@ function setLayer(layer) {
 
 
     document
-        .getElementById("areaLayer")
+        .getElementById(
+            "areaLayer"
+        )
         .classList.toggle(
             "hidden",
             layer !== "area"
@@ -1194,7 +1369,9 @@ function setLayer(layer) {
 
 
     document
-        .getElementById("countryLayer")
+        .getElementById(
+            "countryLayer"
+        )
         .classList.toggle(
             "hidden",
             layer !== "country"
@@ -1202,7 +1379,9 @@ function setLayer(layer) {
 
 
     document
-        .getElementById("terrainModeBtn")
+        .getElementById(
+            "terrainModeBtn"
+        )
         .classList.toggle(
             "active",
             layer === "terrain"
@@ -1210,7 +1389,9 @@ function setLayer(layer) {
 
 
     document
-        .getElementById("areaModeBtn")
+        .getElementById(
+            "areaModeBtn"
+        )
         .classList.toggle(
             "active",
             layer === "area"
@@ -1218,7 +1399,9 @@ function setLayer(layer) {
 
 
     document
-        .getElementById("countryModeBtn")
+        .getElementById(
+            "countryModeBtn"
+        )
         .classList.toggle(
             "active",
             layer === "country"
@@ -1236,6 +1419,9 @@ function setLayer(layer) {
         modeText.textContent =
             "Režim: Upravovať terén";
 
+        canvas.style.cursor =
+            "crosshair";
+
     }
 
     else if (layer === "area") {
@@ -1243,12 +1429,18 @@ function setLayer(layer) {
         modeText.textContent =
             "Režim: Maľovať oblasti";
 
+        canvas.style.cursor =
+            "crosshair";
+
     }
 
     else {
 
         modeText.textContent =
             "Režim: Maľovať krajiny";
+
+        canvas.style.cursor =
+            "pointer";
 
     }
 
@@ -1259,11 +1451,13 @@ function setLayer(layer) {
 
 
 /* =========================================
-   TERÉN – VÝBER
+   VÝBER TERÉNU
 ========================================= */
 
 document
-    .querySelectorAll(".terrain-item")
+    .querySelectorAll(
+        ".terrain-item"
+    )
     .forEach(button => {
 
         button.addEventListener(
@@ -1274,10 +1468,11 @@ document
                     .querySelectorAll(
                         ".terrain-item"
                     )
-                    .forEach(b =>
-                        b.classList.remove(
-                            "selected"
-                        )
+                    .forEach(
+                        b =>
+                            b.classList.remove(
+                                "selected"
+                            )
                     );
 
 
@@ -1300,7 +1495,9 @@ document
 ========================================= */
 
 document
-    .getElementById("terrainModeBtn")
+    .getElementById(
+        "terrainModeBtn"
+    )
     .addEventListener(
         "click",
         () => setLayer("terrain")
@@ -1308,7 +1505,9 @@ document
 
 
 document
-    .getElementById("areaModeBtn")
+    .getElementById(
+        "areaModeBtn"
+    )
     .addEventListener(
         "click",
         () => setLayer("area")
@@ -1316,7 +1515,9 @@ document
 
 
 document
-    .getElementById("countryModeBtn")
+    .getElementById(
+        "countryModeBtn"
+    )
     .addEventListener(
         "click",
         () => setLayer("country")
@@ -1328,7 +1529,9 @@ document
 ========================================= */
 
 document
-    .getElementById("newAreaBtn")
+    .getElementById(
+        "newAreaBtn"
+    )
     .addEventListener(
         "click",
         createArea
@@ -1340,7 +1543,9 @@ document
 ========================================= */
 
 document
-    .getElementById("newCountryBtn")
+    .getElementById(
+        "newCountryBtn"
+    )
     .addEventListener(
         "click",
         createCountry
@@ -1348,61 +1553,153 @@ document
 
 
 /* =========================================
-   NÁSTROJE
+   TERÉN – NÁSTROJE
 ========================================= */
 
 document
-    .getElementById("brushBtn")
+    .getElementById(
+        "brushBtn"
+    )
     .addEventListener(
         "click",
         () => {
 
-            currentTool = "brush";
+            currentTool =
+                "brush";
 
             document
-                .getElementById("brushBtn")
-                .classList.add("active");
+                .getElementById(
+                    "brushBtn"
+                )
+                .classList.add(
+                    "active"
+                );
 
             document
-                .getElementById("eraserBtn")
-                .classList.remove("active");
+                .getElementById(
+                    "eraserBtn"
+                )
+                .classList.remove(
+                    "active"
+                );
 
         }
     );
 
 
 document
-    .getElementById("eraserBtn")
+    .getElementById(
+        "eraserBtn"
+    )
     .addEventListener(
         "click",
         () => {
 
-            currentTool = "eraser";
+            currentTool =
+                "eraser";
 
             document
-                .getElementById("eraserBtn")
-                .classList.add("active");
+                .getElementById(
+                    "eraserBtn"
+                )
+                .classList.add(
+                    "active"
+                );
 
             document
-                .getElementById("brushBtn")
-                .classList.remove("active");
+                .getElementById(
+                    "brushBtn"
+                )
+                .classList.remove(
+                    "active"
+                );
 
         }
     );
 
 
 /* =========================================
-   VEĽKOSŤ ŠTETCA
+   OBLASTI – NÁSTROJE
 ========================================= */
 
 document
-    .getElementById("brushSize")
+    .getElementById(
+        "areaBrushBtn"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            currentTool =
+                "brush";
+
+            document
+                .getElementById(
+                    "areaBrushBtn"
+                )
+                .classList.add(
+                    "active"
+                );
+
+            document
+                .getElementById(
+                    "areaEraserBtn"
+                )
+                .classList.remove(
+                    "active"
+                );
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "areaEraserBtn"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            currentTool =
+                "eraser";
+
+            document
+                .getElementById(
+                    "areaEraserBtn"
+                )
+                .classList.add(
+                    "active"
+                );
+
+            document
+                .getElementById(
+                    "areaBrushBtn"
+                )
+                .classList.remove(
+                    "active"
+                );
+
+        }
+    );
+
+
+/* =========================================
+   VEĽKOSŤ TERÉNNEHO ŠTETCA
+========================================= */
+
+document
+    .getElementById(
+        "brushSize"
+    )
     .addEventListener(
         "input",
         event => {
 
-            brushSize =
-                Number(event.target.value);
+            terrainBrushSize =
+                Number(
+                    event.target.value
+                );
 
 
             document
@@ -1410,7 +1707,36 @@ document
                     "brushSizeValue"
                 )
                 .textContent =
-                    brushSize;
+                    terrainBrushSize;
+
+        }
+    );
+
+
+/* =========================================
+   VEĽKOSŤ OBLASTNÉHO ŠTETCA
+========================================= */
+
+document
+    .getElementById(
+        "areaBrushSize"
+    )
+    .addEventListener(
+        "input",
+        event => {
+
+            areaBrushSize =
+                Number(
+                    event.target.value
+                );
+
+
+            document
+                .getElementById(
+                    "areaBrushSizeValue"
+                )
+                .textContent =
+                    areaBrushSize;
 
         }
     );
@@ -1458,7 +1784,11 @@ canvas.addEventListener(
         }
 
 
-        if (currentLayer === "terrain") {
+        /* TERÉN */
+
+        if (
+            currentLayer === "terrain"
+        ) {
 
             paintTerrain(
                 tile.x,
@@ -1470,7 +1800,11 @@ canvas.addEventListener(
         }
 
 
-        else if (currentLayer === "area") {
+        /* OBLASŤ */
+
+        else if (
+            currentLayer === "area"
+        ) {
 
             paintArea(
                 tile.x,
@@ -1480,7 +1814,11 @@ canvas.addEventListener(
         }
 
 
-        else if (currentLayer === "country") {
+        /* KRAJINA */
+
+        else if (
+            currentLayer === "country"
+        ) {
 
             assignCountryToArea(
                 tile.x,
@@ -1494,7 +1832,7 @@ canvas.addEventListener(
 
 
 /* =========================================
-   MAĽOVANIE ŤAHANÍM MYŠOU
+   ŤAHANIE MYŠOU
 ========================================= */
 
 canvas.addEventListener(
@@ -1504,13 +1842,17 @@ canvas.addEventListener(
         updateCoordinates(event);
 
 
+        /* POSÚVANIE */
+
         if (isPanning) {
 
             offsetX =
-                event.clientX - panStartX;
+                event.clientX -
+                panStartX;
 
             offsetY =
-                event.clientY - panStartY;
+                event.clientY -
+                panStartY;
 
             drawMap();
 
@@ -1519,16 +1861,7 @@ canvas.addEventListener(
         }
 
 
-        if (
-            event.buttons !== 1
-        ) {
-            return;
-        }
-
-
-        if (
-            currentLayer !== "terrain"
-        ) {
+        if (event.buttons !== 1) {
             return;
         }
 
@@ -1542,13 +1875,34 @@ canvas.addEventListener(
         }
 
 
-        paintTerrain(
-            tile.x,
-            tile.y
-        );
+        /* TERÉN */
+
+        if (
+            currentLayer === "terrain"
+        ) {
+
+            paintTerrain(
+                tile.x,
+                tile.y
+            );
+
+            drawMap();
+
+        }
 
 
-        drawMap();
+        /* OBLASŤ */
+
+        else if (
+            currentLayer === "area"
+        ) {
+
+            paintArea(
+                tile.x,
+                tile.y
+            );
+
+        }
 
     }
 );
@@ -1565,14 +1919,16 @@ window.addEventListener(
         isPanning = false;
 
         canvas.style.cursor =
-            "crosshair";
+            currentLayer === "country"
+                ? "pointer"
+                : "crosshair";
 
     }
 );
 
 
 /* =========================================
-   ZAKÁZANIE PRAVÉHO MENU
+   ZÁKAZ PRAVÉHO MENU
 ========================================= */
 
 canvas.addEventListener(
@@ -1589,7 +1945,9 @@ canvas.addEventListener(
    SÚRADNICE
 ========================================= */
 
-function updateCoordinates(event) {
+function updateCoordinates(
+    event
+) {
 
     const tile =
         getTileFromMouse(event);
@@ -1621,7 +1979,9 @@ function updateCoordinates(event) {
    ZOOM
 ========================================= */
 
-function setZoom(newZoom) {
+function setZoom(
+    newZoom
+) {
 
     zoom =
         Math.max(
@@ -1634,9 +1994,13 @@ function setZoom(newZoom) {
 
 
     document
-        .getElementById("zoomValue")
+        .getElementById(
+            "zoomValue"
+        )
         .textContent =
-            Math.round(zoom * 100) + "%";
+            Math.round(
+                zoom * 100
+            ) + "%";
 
 
     drawMap();
@@ -1645,7 +2009,9 @@ function setZoom(newZoom) {
 
 
 document
-    .getElementById("zoomIn")
+    .getElementById(
+        "zoomIn"
+    )
     .addEventListener(
         "click",
         () => {
@@ -1659,7 +2025,9 @@ document
 
 
 document
-    .getElementById("zoomOut")
+    .getElementById(
+        "zoomOut"
+    )
     .addEventListener(
         "click",
         () => {
@@ -1673,7 +2041,9 @@ document
 
 
 document
-    .getElementById("resetView")
+    .getElementById(
+        "resetView"
+    )
     .addEventListener(
         "click",
         () => {
@@ -1687,7 +2057,9 @@ document
                 originalOffsetY;
 
             document
-                .getElementById("zoomValue")
+                .getElementById(
+                    "zoomValue"
+                )
                 .textContent =
                     "100%";
 
@@ -1698,7 +2070,7 @@ document
 
 
 /* =========================================
-   ZOOM KOLIESKOM
+   ZOOM KOLESOM
 ========================================= */
 
 canvas.addEventListener(
@@ -1716,7 +2088,9 @@ canvas.addEventListener(
 
             zoom *= 1.1;
 
-        } else {
+        }
+
+        else {
 
             zoom /= 1.1;
 
@@ -1733,26 +2107,22 @@ canvas.addEventListener(
             );
 
 
-        /*
-         * Zoomujeme smerom
-         * k pozícii myši.
-         */
-
         const rect =
             canvas.getBoundingClientRect();
 
 
         const mouseX =
-            event.clientX - rect.left;
+            event.clientX -
+            rect.left;
 
         const mouseY =
-            event.clientY - rect.top;
+            event.clientY -
+            rect.top;
 
 
         const worldX =
             (mouseX - offsetX) /
             (TILE_SIZE * oldZoom);
-
 
         const worldY =
             (mouseY - offsetY) /
@@ -1765,7 +2135,6 @@ canvas.addEventListener(
             TILE_SIZE *
             zoom;
 
-
         offsetY =
             mouseY -
             worldY *
@@ -1774,9 +2143,13 @@ canvas.addEventListener(
 
 
         document
-            .getElementById("zoomValue")
+            .getElementById(
+                "zoomValue"
+            )
             .textContent =
-                Math.round(zoom * 100) + "%";
+                Math.round(
+                    zoom * 100
+                ) + "%";
 
 
         drawMap();
@@ -1789,11 +2162,13 @@ canvas.addEventListener(
 
 
 /* =========================================
-   ULOŽENIE SVETA
+   ULOŽENIE
 ========================================= */
 
 document
-    .getElementById("saveBtn")
+    .getElementById(
+        "saveBtn"
+    )
     .addEventListener(
         "click",
         saveWorld
@@ -1829,7 +2204,8 @@ function saveWorld() {
         new Blob(
             [json],
             {
-                type: "application/json"
+                type:
+                    "application/json"
             }
         );
 
@@ -1839,7 +2215,9 @@ function saveWorld() {
 
 
     const link =
-        document.createElement("a");
+        document.createElement(
+            "a"
+        );
 
 
     link.href = url;
@@ -1857,17 +2235,21 @@ function saveWorld() {
 
 
 /* =========================================
-   NAČÍTANIE SVETA
+   NAČÍTANIE
 ========================================= */
 
 document
-    .getElementById("loadBtn")
+    .getElementById(
+        "loadBtn"
+    )
     .addEventListener(
         "click",
         () => {
 
             document
-                .getElementById("loadFile")
+                .getElementById(
+                    "loadFile"
+                )
                 .click();
 
         }
@@ -1875,7 +2257,9 @@ document
 
 
 document
-    .getElementById("loadFile")
+    .getElementById(
+        "loadFile"
+    )
     .addEventListener(
         "change",
         event => {
@@ -1927,9 +2311,11 @@ document
                             data.countries;
 
 
-                        selectedArea = null;
+                        selectedArea =
+                            null;
 
-                        selectedCountry = null;
+                        selectedCountry =
+                            null;
 
 
                         updateAreaList();
@@ -1951,7 +2337,9 @@ document
                             "Súbor sa nepodarilo načítať."
                         );
 
-                        console.error(error);
+                        console.error(
+                            error
+                        );
 
                     }
 
@@ -1965,11 +2353,13 @@ document
 
 
 /* =========================================
-   VYMAZANIE MAPY
+   VYMAZANIE
 ========================================= */
 
 document
-    .getElementById("clearBtn")
+    .getElementById(
+        "clearBtn"
+    )
     .addEventListener(
         "click",
         () => {
