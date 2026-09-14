@@ -1,408 +1,611 @@
 * {
-  box-sizing: border-box;
-  }
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 body {
+    font-family: Arial, Helvetica, sans-serif;
 
-```
-margin: 0;
+    background: #111827;
+    color: #f3f4f6;
 
-background: #1b1d20;
-
-color: white;
-
-font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
-overflow: hidden;
-```
-
+    overflow: hidden;
 }
 
-/* =========================
-HLAVIČKA
-========================= */
+
+/* ================================= */
+/* APLIKÁCIA */
+/* ================================= */
+
+#app {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ================================= */
+/* HORNÁ LIŠTA */
+/* ================================= */
 
 header {
+    height: 72px;
 
-```
-height: 65px;
+    background: #1f2937;
 
-background: #25282c;
+    border-bottom: 1px solid #374151;
 
-border-bottom: 2px solid #111;
+    display: flex;
+    align-items: center;
 
-display: flex;
+    padding: 0 20px;
 
-align-items: center;
+    gap: 30px;
 
-justify-content: space-between;
-
-padding: 0 20px;
-```
-
+    z-index: 10;
 }
 
-.logo {
+header h1 {
+    font-size: 22px;
 
-```
-font-size: 22px;
-
-font-weight: bold;
-```
-
+    white-space: nowrap;
 }
 
-.header-buttons button {
 
-```
-margin-left: 8px;
-```
+.top-buttons {
+    display: flex;
 
+    gap: 8px;
+
+    height: 100%;
+    align-items: center;
 }
 
-/* =========================
-TLAČIDLÁ
-========================= */
-
-button {
-
-```
-border: 1px solid #555;
-
-background: #353a40;
-
-color: white;
-
-padding: 10px 12px;
-
-margin: 3px;
-
-border-radius: 6px;
-
-cursor: pointer;
-
-font-size: 14px;
-```
-
-}
-
-button:hover {
-
-```
-background: #4a5057;
-```
-
-}
-
-button.active {
-
-```
-background: #607d8b;
-
-border-color: white;
-```
-
-}
-
-/* =========================
-HLAVNÉ ROZLOŽENIE
-========================= */
-
-main {
-
-```
-display: flex;
-
-height: calc(100vh - 65px);
-```
-
-}
-
-/* =========================
-SIDEBAR
-========================= */
-
-.sidebar {
-
-```
-width: 250px;
-
-min-width: 250px;
-
-background: #292d32;
-
-border-right: 2px solid #111;
-
-padding: 15px;
-
-overflow-y: auto;
-```
-
-}
-
-.sidebar section {
-
-```
-margin-bottom: 20px;
-
-padding-bottom: 15px;
-
-border-bottom: 1px solid #454a50;
-```
-
-}
-
-.sidebar h2 {
-
-```
-font-size: 14px;
-
-color: #aaa;
-
-margin: 5px 0 10px;
-
-letter-spacing: 1px;
-```
-
-}
 
 .layer-button {
+    height: 44px;
 
-```
-width: 100%;
+    padding: 0 18px;
 
-text-align: left;
+    border: 1px solid #4b5563;
 
-font-weight: bold;
+    border-radius: 8px;
 
-font-size: 15px;
+    background: #374151;
 
-padding: 13px;
-```
+    color: #d1d5db;
 
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    transition: 0.15s;
 }
 
-.terrain-button {
 
-```
-width: 100%;
-
-text-align: left;
-```
-
+.layer-button:hover {
+    background: #4b5563;
 }
 
-/* =========================
-SLIDER
-========================= */
 
-.slider-label {
+.layer-button.active {
+    background: #2563eb;
 
-```
-display: block;
+    color: white;
 
-margin-top: 12px;
+    border-color: #60a5fa;
 
-color: #ccc;
-
-font-size: 13px;
-```
-
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
 }
 
-#brushSize {
 
-```
-width: 100%;
+/* ================================= */
+/* HLAVNÁ ČASŤ */
+/* ================================= */
 
-margin-top: 8px;
-```
+main {
+    flex: 1;
 
+    display: flex;
+
+    min-height: 0;
 }
 
-#brushSizeValue {
 
-```
-display: inline-block;
+/* ================================= */
+/* SIDEBAR */
+/* ================================= */
 
-margin-top: 5px;
-```
+#sidebar {
+    width: 280px;
 
+    min-width: 280px;
+
+    background: #1f2937;
+
+    border-right: 1px solid #374151;
+
+    padding: 18px;
+
+    overflow-y: auto;
 }
 
-/* =========================
-OBLASTI / KRAJINY
-========================= */
 
-.area-item,
-.country-item {
+.layer-panel h2 {
+    font-size: 20px;
 
-```
-padding: 10px;
-
-margin-top: 5px;
-
-border-radius: 5px;
-
-background: #343940;
-
-cursor: pointer;
-```
-
+    margin-bottom: 8px;
 }
 
-.area-item:hover,
-.country-item:hover {
 
-```
-background: #454b52;
-```
+.description {
+    color: #9ca3af;
 
+    font-size: 13px;
+
+    line-height: 1.4;
+
+    margin-bottom: 15px;
 }
 
-.country-color {
-
-```
-display: inline-block;
-
-width: 14px;
-
-height: 14px;
-
-border-radius: 50%;
-
-margin-right: 7px;
-
-vertical-align: middle;
-```
-
-}
-
-/* =========================
-MAPA
-========================= */
-
-.map-container {
-
-```
-position: relative;
-
-flex: 1;
-
-overflow: hidden;
-
-background: #111;
-```
-
-}
-
-#mapCanvas {
-
-```
-position: absolute;
-
-left: 0;
-
-top: 0;
-
-cursor: crosshair;
-```
-
-}
-
-/* =========================
-INFO NA MAPE
-========================= */
-
-.map-info {
-
-```
-position: absolute;
-
-bottom: 15px;
-
-left: 15px;
-
-padding: 10px 15px;
-
-background: rgba(0, 0, 0, 0.75);
-
-border-radius: 7px;
-
-font-size: 13px;
-```
-
-}
-
-.map-info span {
-
-```
-margin-right: 20px;
-```
-
-}
-
-/* =========================
-ZOOM
-========================= */
-
-.zoom-controls {
-
-```
-display: flex;
-
-align-items: center;
-
-justify-content: center;
-
-gap: 8px;
-```
-
-}
-
-.zoom-controls button {
-
-```
-width: 40px;
-
-height: 35px;
-
-font-size: 20px;
-```
-
-}
-
-#zoomValue {
-
-```
-min-width: 50px;
-
-text-align: center;
-```
-
-}
-
-#resetView {
-
-```
-width: 100%;
-
-margin-top: 8px;
-```
-
-}
-
-/* =========================
-SKRYTÉ PANELY
-========================= */
 
 .hidden {
+    display: none !important;
+}
 
-```
-display: none;
-```
 
+/* ================================= */
+/* ZOZNAMY */
+/* ================================= */
+
+.item-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.terrain-item,
+.area-item,
+.country-item {
+    width: 100%;
+
+    min-height: 42px;
+
+    padding: 8px 12px;
+
+    border-radius: 7px;
+
+    border: 1px solid #374151;
+
+    background: #273244;
+
+    color: #e5e7eb;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    font-size: 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    transition: 0.15s;
+}
+
+
+.terrain-item:hover,
+.area-item:hover,
+.country-item:hover {
+    background: #374151;
+}
+
+
+.terrain-item.selected,
+.area-item.selected,
+.country-item.selected {
+    border-color: #60a5fa;
+
+    background: #1d4ed8;
+
+    color: white;
+
+    box-shadow: 0 0 0 1px #60a5fa;
+}
+
+
+/* ================================= */
+/* FARBA PRI OBLASTI / KRAJINE */
+/* ================================= */
+
+.color-preview {
+    width: 20px;
+    height: 20px;
+
+    border-radius: 4px;
+
+    border: 1px solid rgba(255,255,255,0.4);
+
+    flex-shrink: 0;
+}
+
+
+/* ================================= */
+/* VYTVÁRANIE */
+/* ================================= */
+
+.create-button {
+    width: 100%;
+
+    padding: 11px;
+
+    margin-bottom: 15px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #059669;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+.create-button:hover {
+    background: #10b981;
+}
+
+
+/* ================================= */
+/* NÁSTROJE */
+/* ================================= */
+
+.tool-section {
+    margin-top: 25px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #374151;
+}
+
+
+.tool-section h3,
+.common-section h3 {
+    font-size: 14px;
+
+    color: #d1d5db;
+
+    margin-bottom: 10px;
+}
+
+
+.tool-button {
+    width: 100%;
+
+    padding: 10px;
+
+    margin-bottom: 7px;
+
+    border: 1px solid #374151;
+
+    border-radius: 7px;
+
+    background: #273244;
+
+    color: #d1d5db;
+
+    cursor: pointer;
+}
+
+
+.tool-button:hover {
+    background: #374151;
+}
+
+
+.tool-button.active {
+    background: #4b5563;
+
+    border-color: #9ca3af;
+
+    color: white;
+}
+
+
+/* ================================= */
+/* VEĽKOSŤ ŠTETCA */
+/* ================================= */
+
+.brush-section {
+    margin-top: 10px;
+
+    padding: 12px;
+
+    background: #273244;
+
+    border-radius: 7px;
+}
+
+
+.brush-section label {
+    display: block;
+
+    font-size: 13px;
+
+    color: #d1d5db;
+
+    margin-bottom: 8px;
+}
+
+
+#brushSize {
+    width: 100%;
+}
+
+
+/* ================================= */
+/* SPODNÁ SEKCIA */
+/* ================================= */
+
+.common-section {
+    margin-top: 30px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #374151;
+}
+
+
+.normal-button {
+    width: 100%;
+
+    padding: 10px;
+
+    margin-bottom: 7px;
+
+    border: 1px solid #4b5563;
+
+    border-radius: 7px;
+
+    background: #273244;
+
+    color: #e5e7eb;
+
+    cursor: pointer;
+}
+
+
+.normal-button:hover {
+    background: #374151;
+}
+
+
+.normal-button.danger:hover {
+    background: #991b1b;
+
+    border-color: #ef4444;
+}
+
+
+/* ================================= */
+/* PRÁZDNÝ ZOZNAM */
+/* ================================= */
+
+.empty-message {
+    color: #6b7280;
+
+    font-size: 13px;
+
+    text-align: center;
+
+    padding: 20px 5px;
+}
+
+
+/* ================================= */
+/* MAPA */
+/* ================================= */
+
+#mapArea {
+    flex: 1;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: #0b1120;
+}
+
+
+#canvasContainer {
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    cursor: crosshair;
+}
+
+
+#mapCanvas {
+    display: block;
+
+    background: #0f172a;
+}
+
+
+/* ================================= */
+/* INFORMÁCIE NAD MAPOU */
+/* ================================= */
+
+#mapInfo {
+    position: absolute;
+
+    top: 12px;
+    left: 12px;
+    right: 12px;
+
+    height: 38px;
+
+    background: rgba(17, 24, 39, 0.9);
+
+    border: 1px solid #374151;
+
+    border-radius: 7px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 0 13px;
+
+    font-size: 13px;
+
+    color: #d1d5db;
+
+    z-index: 5;
+
+    pointer-events: none;
+}
+
+
+/* ================================= */
+/* ZOOM */
+/* ================================= */
+
+#zoomControls {
+    position: absolute;
+
+    right: 15px;
+    bottom: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    background: rgba(17, 24, 39, 0.95);
+
+    border: 1px solid #374151;
+
+    border-radius: 8px;
+
+    padding: 5px;
+}
+
+
+#zoomControls button {
+    width: 35px;
+    height: 35px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    background: #374151;
+
+    color: white;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+
+#zoomControls button:hover {
+    background: #4b5563;
+}
+
+
+#zoomValue {
+    min-width: 55px;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    color: #d1d5db;
+}
+
+
+/* ================================= */
+/* SCROLLBAR */
+/* ================================= */
+
+#sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+
+#sidebar::-webkit-scrollbar-track {
+    background: #111827;
+}
+
+
+#sidebar::-webkit-scrollbar-thumb {
+    background: #374151;
+
+    border-radius: 5px;
+}
+
+
+#sidebar::-webkit-scrollbar-thumb:hover {
+    background: #4b5563;
+}
+
+
+/* ================================= */
+/* MOBIL */
+/* ================================= */
+
+@media (max-width: 900px) {
+
+    header {
+        height: auto;
+
+        min-height: 72px;
+
+        flex-wrap: wrap;
+
+        padding: 10px;
+    }
+
+    header h1 {
+        width: 100%;
+    }
+
+    .top-buttons {
+        width: 100%;
+
+        overflow-x: auto;
+    }
+
+    .layer-button {
+        white-space: nowrap;
+    }
+
+    #sidebar {
+        width: 230px;
+
+        min-width: 230px;
+    }
 }
