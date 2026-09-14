@@ -623,10 +623,10 @@ function drawCities() {
 
         ctx.fillStyle = "white";
 
-        ctx.fillText(
-            "🏙️",
-            px + TILE_SIZE / 2,
-            py + TILE_SIZE - 4
+        ctx.fillStyle = "red";
+        ctx.beginPath();
+        ctx.arc(px, py, 5, 0, Math.PI * 2);
+        ctx.fill();
         );
 
 
@@ -1377,6 +1377,9 @@ function addTileToArea(x, y, areaId) {
 
 
 function paintArea(x, y) {
+    if (world[y][x].terrain === "river" || world[y][x].terrain === "sea") {
+    return;
+    }
 
     const radius =
         Math.floor(
