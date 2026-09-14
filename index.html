@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Môj svet</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -13,7 +11,6 @@
 
 <div id="app">
 
-    <!-- HORNÁ LIŠTA -->
     <header>
 
         <h1>🌍 MÔJ SVET</h1>
@@ -37,22 +34,18 @@
     </header>
 
 
-    <!-- HLAVNÁ ČASŤ -->
     <main>
 
-        <!-- BOČNÝ PANEL -->
         <aside id="sidebar">
 
-            <!-- ========================= -->
             <!-- TERÉN -->
-            <!-- ========================= -->
 
             <section id="terrainLayer" class="layer-panel">
 
                 <h2>🌱 Terén</h2>
 
                 <p class="description">
-                    Vyber typ terénu a maľuj ním mapu.
+                    Vyber terén a maľuj ním mapu.
                 </p>
 
                 <div id="terrainList" class="item-list">
@@ -99,7 +92,6 @@
 
                 </div>
 
-
                 <div class="tool-section">
 
                     <h3>Nástroje</h3>
@@ -114,10 +106,9 @@
 
                 </div>
 
-
                 <div class="brush-section">
 
-                    <label for="brushSize">
+                    <label>
                         Veľkosť štetca:
                         <strong id="brushSizeValue">1</strong>
                     </label>
@@ -135,17 +126,14 @@
             </section>
 
 
-            <!-- ========================= -->
             <!-- OBLASTI -->
-            <!-- ========================= -->
 
-            <section id="areaLayer"
-                     class="layer-panel hidden">
+            <section id="areaLayer" class="layer-panel hidden">
 
                 <h2>🗺️ Oblasti</h2>
 
                 <p class="description">
-                    Vyber oblasť a kliknutím na mapu jej priraď políčka.
+                    Vyber oblasť a maľuj jej územie pomocou štetca.
                 </p>
 
                 <button id="newAreaBtn" class="create-button">
@@ -160,20 +148,51 @@
 
                 </div>
 
+                <div class="tool-section">
+
+                    <h3>Nástroje oblastí</h3>
+
+                    <button id="areaBrushBtn"
+                            class="tool-button active">
+                        🖌️ Štetec
+                    </button>
+
+                    <button id="areaEraserBtn"
+                            class="tool-button">
+                        🧹 Guma
+                    </button>
+
+                </div>
+
+                <div class="brush-section">
+
+                    <label>
+                        Veľkosť štetca:
+                        <strong id="areaBrushSizeValue">1</strong>
+                    </label>
+
+                    <input
+                        type="range"
+                        id="areaBrushSize"
+                        min="1"
+                        max="10"
+                        value="1"
+                    >
+
+                </div>
+
             </section>
 
 
-            <!-- ========================= -->
             <!-- KRAJINY -->
-            <!-- ========================= -->
 
-            <section id="countryLayer"
-                     class="layer-panel hidden">
+            <section id="countryLayer" class="layer-panel hidden">
 
                 <h2>🏳️ Krajiny</h2>
 
                 <p class="description">
-                    Vyber krajinu a klikni na oblasť, ktorú jej chceš priradiť.
+                    Vyber krajinu a klikni na oblasť.
+                    Celá oblasť sa priradí krajine.
                 </p>
 
                 <button id="newCountryBtn" class="create-button">
@@ -191,9 +210,7 @@
             </section>
 
 
-            <!-- ========================= -->
-            <!-- SPOLOČNÉ OVLÁDANIE -->
-            <!-- ========================= -->
+            <!-- ULOŽENIE -->
 
             <section class="common-section">
 
@@ -207,7 +224,8 @@
                     📂 Načítať svet
                 </button>
 
-                <button id="clearBtn" class="normal-button danger">
+                <button id="clearBtn"
+                        class="normal-button danger">
                     🗑️ Vymazať mapu
                 </button>
 
@@ -224,6 +242,7 @@
 
 
         <!-- MAPA -->
+
         <section id="mapArea">
 
             <div id="mapInfo">
@@ -246,7 +265,6 @@
             </div>
 
 
-            <!-- ZOOM -->
             <div id="zoomControls">
 
                 <button id="zoomOut">−</button>
@@ -268,7 +286,6 @@
     </main>
 
 </div>
-
 
 <script src="game.js"></script>
 
