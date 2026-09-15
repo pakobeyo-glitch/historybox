@@ -6,137 +6,73 @@
     <title>Editor sveta</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
     <h1>🌍 Editor sveta</h1>
 
     <div class="layers">
-        <button id="terrainMode" class="layer-btn active">
-            🟢 UPRAVOVAŤ TERÉN
-        </button>
-
-        <button id="areaMode" class="layer-btn">
-            🟠 MAĽOVAŤ OBLASTI
-        </button>
-
-        <button id="countryMode" class="layer-btn">
-            🔴 MAĽOVAŤ KRAJINY
-        </button>
-
-        <button id="infrastructureMode" class="layer-btn">
-            🟣 INFRAŠTRUKTÚRA
-        </button>
+        <button id="terrainMode" class="layer-btn active">🟢 UPRAVOVAŤ TERÉN</button>
+        <button id="areaMode" class="layer-btn">🟠 MAĽOVAŤ OBLASTI</button>
+        <button id="countryMode" class="layer-btn">🔴 MAĽOVAŤ KRAJINY</button>
+        <button id="infrastructureMode" class="layer-btn">🟣 INFRAŠTRUKTÚRA</button>
     </div>
 </header>
-
 
 <div class="main">
 
     <aside id="sidebar">
 
-        <!-- TERÉN -->
         <section id="terrainLayer" class="layer-panel">
-
             <h2>🌄 Terén</h2>
-
             <div id="terrainList" class="terrain-list"></div>
 
             <h3>Nástroje</h3>
-
             <div class="tools">
-                <button id="terrainBrush" class="tool-btn active">
-                    🖌️ Štetec
-                </button>
-
-                <button id="terrainEraser" class="tool-btn">
-                    🧽 Guma
-                </button>
+                <button id="terrainBrush" class="tool-btn active">🖌️ Štetec</button>
+                <button id="terrainEraser" class="tool-btn">🧽 Guma</button>
             </div>
 
             <label class="brush-label">
                 Veľkosť štetca:
                 <span id="terrainBrushSizeValue">1</span>
             </label>
-
-            <input
-                id="terrainBrushSize"
-                type="range"
-                min="1"
-                max="10"
-                value="1"
-            >
+            <input id="terrainBrushSize" type="range" min="1" max="10" value="1">
         </section>
 
-
-        <!-- OBLASTI -->
         <section id="areaLayer" class="layer-panel hidden">
-
             <h2>🟠 Oblasti</h2>
-
-            <button id="createArea" class="main-action">
-                + Vytvoriť oblasť
-            </button>
-
+            <button id="createArea" class="main-action">+ Vytvoriť oblasť</button>
             <div id="areaList" class="area-list"></div>
 
             <h3>Nástroje</h3>
-
             <div class="tools">
-                <button id="areaBrush" class="tool-btn active">
-                    🖌️ Štetec
-                </button>
-
-                <button id="areaEraser" class="tool-btn">
-                    🧽 Guma
-                </button>
+                <button id="areaBrush" class="tool-btn active">🖌️ Štetec</button>
+                <button id="areaEraser" class="tool-btn">🧽 Guma</button>
             </div>
 
             <label class="brush-label">
                 Veľkosť štetca:
                 <span id="areaBrushSizeValue">1</span>
             </label>
-
-            <input
-                id="areaBrushSize"
-                type="range"
-                min="1"
-                max="10"
-                value="1"
-            >
+            <input id="areaBrushSize" type="range" min="1" max="10" value="1">
 
             <p class="info">
-                Oblasti sú zobrazené sivou farbou.
+                Oblasti sú sivé. Na rieke a mori sa nedajú maľovať.
             </p>
         </section>
 
-
-        <!-- KRAJINY -->
         <section id="countryLayer" class="layer-panel hidden">
-
             <h2>🔴 Krajiny</h2>
-
-            <button id="createCountry" class="main-action">
-                + Vytvoriť krajinu
-            </button>
-
+            <button id="createCountry" class="main-action">+ Vytvoriť krajinu</button>
             <div id="countryList" class="country-list"></div>
-
-            <p class="info">
-                Klikni na oblasť a priraď ju vybranej krajine.
-            </p>
+            <p class="info">Klikni na oblasť a priraď ju vybranej krajine.</p>
         </section>
 
-
-        <!-- INFRAŠTRUKTÚRA -->
         <section id="infrastructureLayer" class="layer-panel hidden">
-
             <h2>🟣 Infraštruktúra</h2>
 
-
             <div class="infra-section">
-
                 <h3>🏙️ Mestá</h3>
 
                 <button id="createCity" class="main-action">
@@ -144,78 +80,35 @@
                 </button>
 
                 <div class="tools">
-                    <button id="cityPlace" class="tool-btn active">
-                        🏙️ Umiestniť
-                    </button>
-
-                    <button id="cityEraser" class="tool-btn">
-                        🧽 Guma
-                    </button>
+                    <button id="cityPlace" class="tool-btn active">🔴 Umiestniť</button>
+                    <button id="cityEraser" class="tool-btn">🧽 Guma</button>
                 </div>
 
                 <div id="cityList" class="city-list"></div>
 
-            </div>
-
-
-            <div class="infra-section">
-
-                <h3>🛣️ Cesty</h3>
-
-                <div class="tools">
-                    <button id="roadBrush" class="tool-btn active">
-                        🛣️ Cesta
-                    </button>
-
-                    <button id="roadEraser" class="tool-btn">
-                        🧽 Guma
-                    </button>
-                </div>
-
                 <p class="info">
-                    Drž ľavé tlačidlo a ťahaj po mape.
-                    Cesta bude vždy široká 1 políčko.
+                    Mesto zaberá jedno políčko a na mape je červená bodka.
                 </p>
-
             </div>
-
         </section>
 
-
-        <!-- SPOLOČNÉ -->
         <section class="common-section">
-
             <h2>💾 Svet</h2>
 
-            <button id="saveWorld" class="save-btn">
-                💾 Uložiť svet
-            </button>
+            <button id="saveWorld" class="save-btn">💾 Uložiť svet</button>
 
             <label class="load-btn">
                 📂 Načítať svet
-                <input
-                    type="file"
-                    id="loadWorld"
-                    accept=".json"
-                    hidden
-                >
+                <input type="file" id="loadWorld" accept=".json" hidden>
             </label>
 
-            <button id="clearWorld" class="danger-btn">
-                🗑️ Vymazať svet
-            </button>
-
+            <button id="clearWorld" class="danger-btn">🗑️ Vymazať svet</button>
         </section>
 
     </aside>
 
-
     <main id="gameArea">
-
-        <div id="coordinates">
-            X: 0 | Y: 0
-        </div>
-
+        <div id="coordinates">X: 0 | Y: 0</div>
         <canvas id="gameCanvas"></canvas>
 
         <div class="zoom-controls">
@@ -224,12 +117,10 @@
             <button id="zoomIn">+</button>
             <button id="resetZoom">⟳</button>
         </div>
-
     </main>
 
 </div>
 
 <script src="game.js"></script>
-
 </body>
 </html>
