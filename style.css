@@ -1,9 +1,37 @@
+```css
+/* =========================================
+   MY WORLD GAME — STYLE.CSS
+   ========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #111;
+    color: #eee;
+}
+
+/* =========================================
+   HORNÁ LIŠTA
+   ========================================= */
+
 .topbar {
     position: relative;
     z-index: 1000;
 
-    height: 68px;
     width: 100%;
+    height: 68px;
 
     display: flex;
     align-items: center;
@@ -18,6 +46,38 @@
     pointer-events: auto;
 }
 
+/* Názov hry */
+
+.logo {
+    height: 100%;
+
+    min-width: 245px;
+
+    display: flex;
+    align-items: center;
+
+    padding-right: 20px;
+
+    border-right: 1px solid #3d3d3d;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    color: #fff;
+
+    white-space: nowrap;
+
+    user-select: none;
+}
+
+.logo span {
+    margin-left: 8px;
+}
+
+/* =========================================
+   TABS
+   ========================================= */
+
 .mode-tabs {
     height: 100%;
 
@@ -25,6 +85,8 @@
     align-items: stretch;
 
     gap: 3px;
+
+    margin-left: 10px;
 
     pointer-events: auto;
 }
@@ -34,33 +96,99 @@
     z-index: 1001;
 
     min-width: 125px;
+    height: 100%;
 
     padding: 0 18px;
 
-    border: 0;
+    border: none;
+    outline: none;
 
     background: transparent;
-    color: #aaa;
 
-    cursor: pointer;
+    color: #999;
 
     font-size: 12px;
     font-weight: bold;
 
     letter-spacing: 0.4px;
 
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+
     pointer-events: auto;
+
+    user-select: none;
 }
 
 .mode-tab:hover {
-    background: #2e2e2e;
+    background: #2d2d2d;
     color: #fff;
 }
 
-.mode-tab.active {
-    background: #303030;
-    color: #fff;
+.mode-tab:active {
+    background: #333;
 }
+
+/* Aktívna karta */
+
+.mode-tab.active {
+    color: #fff;
+    background: #292929;
+}
+
+.mode-tab.active::after {
+    content: "";
+
+    position: absolute;
+
+    left: 12px;
+    right: 12px;
+    bottom: 0;
+
+    height: 3px;
+
+    border-radius: 3px 3px 0 0;
+
+    background: currentColor;
+}
+
+/* Farby aktívnych kariet */
+
+.mode-tab[data-mode="terrain"].active {
+    color: #4caf50;
+}
+
+.mode-tab[data-mode="area"].active {
+    color: #ff9800;
+}
+
+.mode-tab[data-mode="country"].active {
+    color: #f44336;
+}
+
+.mode-tab[data-mode="infra"].active {
+    color: #ab47bc;
+}
+
+/* =========================================
+   HLAVNÝ LAYOUT
+   ========================================= */
+
+.main {
+    width: 100%;
+    height: calc(100vh - 68px);
+
+    display: flex;
+
+    overflow: hidden;
+}
+
+/* =========================================
+   SIDEBAR
+   ========================================= */
 
 #sidebar {
     position: relative;
@@ -72,49 +200,5 @@
 
     padding: 16px;
 
-    background: #202020;
-
-    border-right: 1px solid #3d3d3d;
-
-    overflow-y: auto;
-
-    pointer-events: auto;
-}
-
-#sidebar button,
-#sidebar input {
-    position: relative;
-    z-index: 501;
-
-    pointer-events: auto;
-}
-
-#gameArea {
-    position: relative;
-    z-index: 1;
-
-    flex: 1;
-    min-width: 0;
-
-    overflow: hidden;
-
-    background: #101010;
-}
-
-#gameCanvas {
-    position: absolute;
-
-    left: 0;
-    top: 0;
-
-    width: 100%;
-    height: 100%;
-
-    display: block;
-
-    cursor: crosshair;
-
-    user-select: none;
-
-    pointer-events: auto;
-}
+    background: #
+```
