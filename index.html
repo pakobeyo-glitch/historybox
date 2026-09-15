@@ -13,359 +13,55 @@
 <body>
 
 <header>
-
     <h1>🌍 My World Game</h1>
 
     <div class="layers">
-
-        <button
-            class="layer-btn active"
-            id="terrainLayerBtn"
-            type="button">
-            🟢 UPRAVOVAŤ TERÉN
+        <button class="layer-btn active" id="terrainLayerBtn" type="button">
+            🟢 Terén
         </button>
 
-        <button
-            class="layer-btn"
-            id="areaLayerBtn"
-            type="button">
-            🟠 MAĽOVAŤ OBLASTI
+        <button class="layer-btn" id="areaLayerBtn" type="button">
+            🟠 Oblasti
         </button>
 
-        <button
-            class="layer-btn"
-            id="countryLayerBtn"
-            type="button">
-            🔴 MAĽOVAŤ KRAJINY
+        <button class="layer-btn" id="countryLayerBtn" type="button">
+            🔴 Krajiny
         </button>
 
-        <button
-            class="layer-btn"
-            id="infraLayerBtn"
-            type="button">
-            🟣 INFRAŠTRUKTÚRA
+        <button class="layer-btn" id="infraLayerBtn" type="button">
+            🟣 Infraštruktúra
         </button>
-
     </div>
-
 </header>
 
 
 <div class="main">
 
-    <!-- =========================
-         SIDEBAR
-    ========================== -->
+    <!-- ĽAVÝ PANEL -->
 
     <aside id="sidebar">
 
+        <!-- TERÉN -->
 
-        <!-- =====================
-             TERRAIN
-        ====================== -->
+        <section id="terrainPanel" class="layer-panel">
 
-        <section
-            id="terrainPanel"
-            class="layer-panel">
-
-            <h2>🟢 Terén</h2>
+            <h2>🟢 Úprava terénu</h2>
 
             <div class="terrain-list">
 
-                <button
-                    class="terrain-btn"
-                    data-terrain="desert"
-                    type="button">
-                    🟨 Púšť
-                </button>
-
-                <button
-                    class="terrain-btn"
-                    data-terrain="mountain"
-                    type="button">
-                    🟫 Hory
-                </button>
-
-                <button
-                    class="terrain-btn"
-                    data-terrain="highMountain"
-                    type="button">
-                    ⛰️ Vysoké hory
-                </button>
-
-                <button
-                    class="terrain-btn active"
-                    data-terrain="lowland"
-                    type="button">
+                <button class="terrain-btn active"
+                        data-terrain="lowland"
+                        type="button">
                     🟩 Nížina
                 </button>
 
-                <button
-                    class="terrain-btn"
-                    data-terrain="tundra"
-                    type="button">
-                    ⬜ Tundra
-                </button>
-
-                <button
-                    class="terrain-btn"
-                    data-terrain="river"
-                    type="button">
-                    🟦 Rieka
-                </button>
-
-                <button
-                    class="terrain-btn"
-                    data-terrain="sea"
-                    type="button">
-                    🌊 More
-                </button>
-
-                <button
-                    class="terrain-btn"
-                    data-terrain="forest"
-                    type="button">
-                    🌲 Les
-                </button>
-
-            </div>
-
-            <div class="info">
-                Vyber typ terénu a kliknutím alebo ťahaním
-                upravuj mapu.
-            </div>
-
-        </section>
-
-
-        <!-- =====================
-             AREAS
-        ====================== -->
-
-        <section
-            id="areaPanel"
-            class="layer-panel hidden">
-
-            <h2>🟠 Oblasti</h2>
-
-            <button
-                id="createAreaBtn"
-                class="main-action"
-                type="button">
-                + Vytvoriť oblasť
-            </button>
-
-            <h3>Oblasti</h3>
-
-            <div
-                id="areaList"
-                class="area-list">
-            </div>
-
-            <div class="tools">
-
-                <button
-                    id="areaBrushBtn"
-                    class="tool-btn active"
-                    type="button">
-                    🖌️ Štetec
-                </button>
-
-                <button
-                    id="areaEraserBtn"
-                    class="tool-btn"
-                    type="button">
-                    🧽 Guma
-                </button>
-
-            </div>
-
-            <label
-                for="brushSize"
-                class="brush-label">
-                Veľkosť štetca:
-            </label>
-
-            <input
-                id="brushSize"
-                type="range"
-                min="1"
-                max="10"
-                value="1">
-
-            <div class="info">
-                Oblasti nie je možné maľovať cez rieky
-                alebo more.
-            </div>
-
-        </section>
-
-
-        <!-- =====================
-             COUNTRIES
-        ====================== -->
-
-        <section
-            id="countryPanel"
-            class="layer-panel hidden">
-
-            <h2>🔴 Krajiny</h2>
-
-            <button
-                id="createCountryBtn"
-                class="main-action"
-                type="button">
-                + Vytvoriť krajinu
-            </button>
-
-            <h3>Krajiny</h3>
-
-            <div
-                id="countryList"
-                class="country-list">
-            </div>
-
-            <div class="info">
-                Vyber krajinu a potom klikni na oblasť
-                na mape.
-            </div>
-
-        </section>
-
-
-        <!-- =====================
-             INFRASTRUCTURE
-        ====================== -->
-
-        <section
-            id="infraPanel"
-            class="layer-panel hidden">
-
-            <h2>🟣 Infraštruktúra</h2>
-
-            <div class="infra-section">
-
-                <h3>🏙️ Mestá</h3>
-
-                <button
-                    id="createCityBtn"
-                    class="main-action"
-                    type="button">
-                    + Vytvoriť mesto
-                </button>
-
-                <div class="tools">
-
-                    <button
-                        id="cityPlaceBtn"
-                        class="tool-btn active"
+                <button class="terrain-btn"
+                        data-terrain="desert"
                         type="button">
-                        🔴 Umiestniť
-                    </button>
+                    🟨 Púšť
+                </button>
 
-                    <button
-                        id="cityEraserBtn"
-                        class="tool-btn"
+                <button class="terrain-btn"
+                        data-terrain="mountain"
                         type="button">
-                        🧽 Guma
-                    </button>
-
-                </div>
-
-                <h3>Mestá</h3>
-
-                <div
-                    id="cityList"
-                    class="city-list">
-                </div>
-
-                <div class="info">
-                    Mesto zaberá presne jedno políčko.
-                    Na jednom políčku môže byť iba jedno mesto.
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =====================
-             COMMON
-        ====================== -->
-
-        <section class="common-section">
-
-            <h3>💾 Svet</h3>
-
-            <button
-                id="saveBtn"
-                class="save-btn"
-                type="button">
-                💾 Uložiť svet
-            </button>
-
-            <button
-                id="loadBtn"
-                class="load-btn"
-                type="button">
-                📂 Načítať svet
-            </button>
-
-            <button
-                id="clearBtn"
-                class="danger-btn"
-                type="button">
-                🗑️ Vymazať svet
-            </button>
-
-        </section>
-
-    </aside>
-
-
-    <!-- =========================
-         GAME AREA
-    ========================== -->
-
-    <main id="gameArea">
-
-        <canvas id="gameCanvas"></canvas>
-
-        <div id="coordinates">
-            X: 0 | Y: 0
-        </div>
-
-        <div class="zoom-controls">
-
-            <button
-                id="zoomOutBtn"
-                type="button">
-                −
-            </button>
-
-            <span id="zoomValue">
-                100%
-            </span>
-
-            <button
-                id="zoomInBtn"
-                type="button">
-                +
-            </button>
-
-        </div>
-
-    </main>
-
-</div>
-
-
-<!-- =========================
-     JAVASCRIPT
-========================== -->
-
-<script src="game.js"></script>
-
-</body>
-</html>
 ```
