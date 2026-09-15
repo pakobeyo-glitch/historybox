@@ -12,150 +12,364 @@ body {
 body {
     margin: 0;
 
-    background: #1b1b1b;
+    background: #151515;
     color: #eee;
 
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 
     overflow: hidden;
 }
 
 
-/* =========================
+/* =========================================
    HORNÁ LIŠTA
-========================= */
+========================================= */
 
-header {
-    height: 70px;
+.topbar {
+    height: 68px;
 
     display: flex;
     align-items: center;
 
-    gap: 30px;
+    padding: 0 18px;
 
-    padding: 0 20px;
+    background: #222;
 
-    background: #252525;
+    border-bottom: 1px solid #3d3d3d;
 
-    border-bottom: 1px solid #444;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+
+    position: relative;
+    z-index: 20;
 }
 
-header h1 {
-    margin: 0;
+
+/* LOGO */
+
+.logo {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    min-width: 245px;
+
+    font-size: 21px;
+    font-weight: bold;
+
+    color: #fff;
 
     white-space: nowrap;
-
-    font-size: 22px;
 }
 
 
-/* =========================
-   REŽIMY
-========================= */
+/* =========================================
+   HORNÉ ZÁLOŽKY
+========================================= */
 
-.layers {
+.mode-tabs {
+    height: 100%;
+
     display: flex;
+    align-items: stretch;
 
-    align-items: center;
-
-    gap: 8px;
+    gap: 3px;
 }
 
-.layer-btn {
-    border: none;
+.mode-tab {
+    position: relative;
 
-    padding: 11px 16px;
+    min-width: 125px;
 
-    background: #333;
-    color: #ddd;
+    padding: 0 18px;
 
-    border-radius: 6px;
+    border: 0;
+
+    background: transparent;
+    color: #aaa;
 
     cursor: pointer;
 
+    font-size: 12px;
     font-weight: bold;
 
-    transition: background 0.15s;
+    letter-spacing: 0.4px;
+
+    transition:
+        background 0.15s,
+        color 0.15s;
 }
 
-.layer-btn:hover {
-    background: #444;
+.mode-tab:hover {
+    background: #2e2e2e;
+    color: #fff;
 }
 
-.layer-btn.active {
-    background: #666;
+.mode-tab.active {
+    background: #303030;
+    color: #fff;
+}
 
-    color: white;
+.mode-tab.active::after {
+    content: "";
 
-    box-shadow: inset 0 -3px 0 white;
+    position: absolute;
+
+    left: 12px;
+    right: 12px;
+    bottom: 0;
+
+    height: 3px;
+
+    border-radius: 3px 3px 0 0;
+
+    background: #fff;
+}
+
+.mode-icon {
+    display: inline-block;
+
+    margin-right: 7px;
+
+    font-size: 11px;
+}
+
+.mode-icon.green {
+    color: #54c46a;
+}
+
+.mode-icon.orange {
+    color: #f39c12;
+}
+
+.mode-icon.red {
+    color: #e74c3c;
+}
+
+.mode-icon.purple {
+    color: #9b59b6;
 }
 
 
-/* =========================
+/* =========================================
    HLAVNÁ ČASŤ
-========================= */
+========================================= */
 
 .main {
     display: flex;
 
     width: 100%;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 68px);
 }
 
 
-/* =========================
-   ĽAVÝ PANEL
-========================= */
+/* =========================================
+   SIDEBAR
+========================================= */
 
 #sidebar {
     width: 290px;
-
     min-width: 290px;
 
     height: 100%;
 
-    padding: 15px;
+    padding: 16px;
 
-    background: #242424;
+    background: #202020;
 
-    border-right: 1px solid #444;
+    border-right: 1px solid #3d3d3d;
 
     overflow-y: auto;
 }
 
-.layer-panel h2 {
-    margin-top: 0;
+#sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+    background: #191919;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+    background: #444;
+
+    border-radius: 5px;
+}
+
+#sidebar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+/* =========================================
+   PANELY
+========================================= */
+
+.layer-panel {
+    width: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================================
+   NADPIS PANELU
+========================================= */
+
+.panel-title {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
 
     margin-bottom: 18px;
 
-    font-size: 19px;
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid #3b3b3b;
 }
 
-.layer-panel h3 {
-    margin-top: 18px;
+.panel-title > span {
+    font-size: 23px;
+}
 
+.panel-title h2 {
+    margin: 0 0 3px 0;
+
+    font-size: 18px;
+}
+
+.panel-title p {
+    margin: 0;
+
+    color: #888;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   TERÉN
+========================================= */
+
+.terrain-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    margin-bottom: 16px;
+}
+
+.terrain-btn {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 10px 11px;
+
+    border: 1px solid #444;
+
+    border-radius: 6px;
+
+    background: #2c2c2c;
+    color: #ddd;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    font-size: 13px;
+
+    transition:
+        background 0.12s,
+        border-color 0.12s;
+}
+
+.terrain-btn:hover {
+    background: #363636;
+
+    border-color: #5a5a5a;
+}
+
+.terrain-btn.active {
+    background: #414141;
+
+    border-color: #aaa;
+
+    box-shadow: inset 3px 0 0 #fff;
+}
+
+
+/* =========================================
+   HLAVNÉ TLAČIDLO
+========================================= */
+
+.main-action {
+    width: 100%;
+
+    padding: 11px 12px;
+
+    margin-bottom: 14px;
+
+    border: 1px solid #555;
+
+    border-radius: 6px;
+
+    background: #383838;
+    color: #fff;
+
+    cursor: pointer;
+
+    font-weight: bold;
+    font-size: 13px;
+
+    transition:
+        background 0.15s,
+        border-color 0.15s;
+}
+
+.main-action:hover {
+    background: #484848;
+
+    border-color: #777;
+}
+
+
+/* =========================================
+   SEKČNÉ NADPISY
+========================================= */
+
+.section-heading,
+.tool-heading {
+    margin-top: 16px;
     margin-bottom: 8px;
 
-    color: #ccc;
+    color: #aaa;
 
-    font-size: 15px;
+    font-size: 12px;
+    font-weight: bold;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+.tool-heading {
+    margin-top: 18px;
 }
 
 
-/* =========================
-   SKRYTÉ PANELY
-========================= */
+/* =========================================
+   OBLASTI / KRAJINY / MESTÁ
+========================================= */
 
-.hidden {
-    display: none;
-}
-
-
-/* =========================
-   ZOZNAMY
-========================= */
-
-.terrain-list,
 .area-list,
 .country-list,
 .city-list {
@@ -163,248 +377,259 @@ header h1 {
 
     flex-direction: column;
 
-    gap: 6px;
+    gap: 5px;
 
-    margin-bottom: 20px;
+    margin-bottom: 14px;
 }
 
-
-/* =========================
-   TLAČIDLÁ TERÉNU
-========================= */
-
-.terrain-btn,
 .area-btn,
 .country-btn,
 .city-btn {
     width: 100%;
 
-    padding: 10px;
+    display: flex;
+    align-items: center;
 
-    border: 1px solid #555;
+    padding: 9px 10px;
+
+    border: 1px solid #444;
 
     border-radius: 5px;
 
-    background: #303030;
-    color: #eee;
+    background: #2b2b2b;
+    color: #ddd;
 
     cursor: pointer;
 
     text-align: left;
 
-    transition: background 0.15s;
+    font-size: 13px;
 }
 
-.terrain-btn:hover,
 .area-btn:hover,
 .country-btn:hover,
 .city-btn:hover {
-    background: #3d3d3d;
+    background: #373737;
 }
 
-.terrain-btn.active,
 .area-btn.active,
 .country-btn.active,
 .city-btn.active {
-    outline: 2px solid white;
+    outline: 2px solid #fff;
 
-    background: #444;
+    background: #414141;
 }
 
 
-/* =========================
+/* =========================================
    NÁSTROJE
-========================= */
+========================================= */
 
 .tools {
     display: flex;
 
     gap: 7px;
 
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
 .tool-btn {
     flex: 1;
 
-    padding: 9px;
+    padding: 9px 7px;
 
-    border: 1px solid #555;
+    border: 1px solid #494949;
 
     border-radius: 5px;
 
-    background: #303030;
-    color: #eee;
+    background: #2d2d2d;
+    color: #ddd;
 
     cursor: pointer;
+
+    font-size: 12px;
 }
 
 .tool-btn:hover {
-    background: #414141;
+    background: #3a3a3a;
 }
 
 .tool-btn.active {
-    background: #666;
+    background: #555;
 
-    border-color: #aaa;
-}
+    border-color: #888;
 
-
-/* =========================
-   HLAVNÉ TLAČIDLO
-========================= */
-
-.main-action {
-    width: 100%;
-
-    padding: 11px;
-
-    margin-bottom: 12px;
-
-    border: 1px solid #666;
-
-    border-radius: 5px;
-
-    background: #4a4a4a;
     color: white;
-
-    cursor: pointer;
-
-    font-weight: bold;
-}
-
-.main-action:hover {
-    background: #5a5a5a;
 }
 
 
-/* =========================
-   ŠTETEC
-========================= */
+/* =========================================
+   RANGE
+========================================= */
 
 .brush-label {
     display: block;
 
     margin-bottom: 6px;
 
-    color: #ccc;
+    color: #aaa;
+
+    font-size: 12px;
+}
+
+.range-row {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    margin-bottom: 15px;
 }
 
 input[type="range"] {
-    width: 100%;
+    flex: 1;
 
-    margin-bottom: 20px;
+    accent-color: #aaa;
+}
+
+#brushSizeValue {
+    width: 28px;
+
+    padding: 4px 5px;
+
+    border-radius: 4px;
+
+    background: #303030;
+
+    color: #ddd;
+
+    text-align: center;
+
+    font-size: 12px;
 }
 
 
-/* =========================
+/* =========================================
    INFO
-========================= */
+========================================= */
 
-.info {
-    color: #aaa;
+.info-box {
+    padding: 10px 11px;
 
-    font-size: 13px;
+    margin-top: 10px;
+
+    border: 1px solid #363636;
+
+    border-radius: 6px;
+
+    background: #292929;
+
+    color: #999;
+
+    font-size: 12px;
 
     line-height: 1.5;
 }
 
 
-/* =========================
+/* =========================================
    INFRAŠTRUKTÚRA
-========================= */
+========================================= */
 
-.infra-section {
-    margin-top: 10px;
+.sub-panel {
+    padding-top: 3px;
+}
 
-    padding-top: 10px;
+.sub-title {
+    margin-bottom: 13px;
 
-    border-top: 1px solid #444;
+    color: #ddd;
+
+    font-size: 14px;
+    font-weight: bold;
 }
 
 
-/* =========================
+/* =========================================
    SPOLOČNÁ SEKCIA
-========================= */
+========================================= */
 
 .common-section {
-    margin-top: 20px;
+    margin-top: 22px;
 
     padding-top: 15px;
 
-    border-top: 1px solid #444;
+    border-top: 1px solid #3b3b3b;
 }
 
 
-/* =========================
+/* =========================================
    ULOŽIŤ / NAČÍTAŤ / VYMAZAŤ
-========================= */
+========================================= */
 
 .save-btn,
 .load-btn,
 .danger-btn {
-    display: block;
-
     width: 100%;
+
+    display: block;
 
     padding: 10px;
 
-    margin-bottom: 8px;
-
-    border: 1px solid #555;
+    margin-bottom: 7px;
 
     border-radius: 5px;
 
+    border: 1px solid #4b4b4b;
+
     cursor: pointer;
 
-    text-align: center;
+    color: white;
 
     font-weight: bold;
+
+    font-size: 12px;
 }
 
 .save-btn {
-    background: #365d3d;
-
-    color: white;
+    background: #31543a;
 }
 
 .save-btn:hover {
-    background: #43734b;
+    background: #3e6948;
 }
 
 .load-btn {
-    background: #3b4e65;
-
-    color: white;
+    background: #35485e;
 }
 
 .load-btn:hover {
-    background: #4a6280;
+    background: #465f7a;
 }
 
 .danger-btn {
-    background: #633636;
-
-    color: white;
+    background: #5b3434;
 }
 
 .danger-btn:hover {
-    background: #7a4141;
+    background: #713f3f;
 }
 
 
-/* =========================
+/* =========================================
    MAPA
-========================= */
+========================================= */
 
 #gameArea {
     position: relative;
 
     flex: 1;
 
+    min-width: 0;
+
     overflow: hidden;
 
-    background: #111;
+    background: #101010;
 }
 
 #gameCanvas {
@@ -419,35 +644,65 @@ input[type="range"] {
 }
 
 
-/* =========================
+/* =========================================
    SÚRADNICE
-========================= */
+========================================= */
 
 #coordinates {
     position: absolute;
 
-    top: 15px;
-    left: 15px;
+    top: 14px;
+    left: 14px;
 
-    z-index: 10;
+    z-index: 5;
 
     padding: 7px 10px;
 
+    border: 1px solid rgba(255,255,255,0.08);
+
     border-radius: 5px;
 
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0,0,0,0.72);
 
-    color: white;
+    color: #ddd;
 
-    font-size: 13px;
+    font-size: 12px;
 
     pointer-events: none;
 }
 
 
-/* =========================
+/* =========================================
+   POMOC NA MAPE
+========================================= */
+
+.map-help {
+    position: absolute;
+
+    left: 14px;
+    bottom: 14px;
+
+    z-index: 5;
+
+    padding: 7px 10px;
+
+    border-radius: 5px;
+
+    background: rgba(0,0,0,0.65);
+
+    color: #888;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
    ZOOM
-========================= */
+========================================= */
 
 .zoom-controls {
     position: absolute;
@@ -455,34 +710,38 @@ input[type="range"] {
     right: 15px;
     bottom: 15px;
 
-    display: flex;
+    z-index: 5;
 
+    display: flex;
     align-items: center;
 
     gap: 5px;
 
     padding: 6px;
 
+    border: 1px solid rgba(255,255,255,0.08);
+
     border-radius: 6px;
 
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0,0,0,0.75);
 }
 
 .zoom-controls button {
-    width: 35px;
-    height: 32px;
+    width: 34px;
+    height: 31px;
+
+    padding: 0;
 
     border: 1px solid #555;
 
     border-radius: 4px;
 
-    background: #333;
+    background: #303030;
     color: white;
 
     cursor: pointer;
 
-    font-size: 16px;
-
+    font-size: 17px;
     font-weight: bold;
 }
 
@@ -497,110 +756,80 @@ input[type="range"] {
 
     color: #ddd;
 
-    font-size: 13px;
+    font-size: 12px;
 }
 
 
-/* =========================
-   SCROLLBAR
-========================= */
+/* =========================================
+   RESPONSIVE
+========================================= */
 
-#sidebar::-webkit-scrollbar {
-    width: 8px;
-}
+@media (max-width: 1000px) {
 
-#sidebar::-webkit-scrollbar-track {
-    background: #1d1d1d;
-}
+    .logo {
+        min-width: 200px;
 
-#sidebar::-webkit-scrollbar-thumb {
-    background: #444;
-
-    border-radius: 4px;
-}
-
-#sidebar::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-
-/* =========================
-   MENŠIE OBRAZOVKY
-========================= */
-
-@media (max-width: 900px) {
-
-    header {
-        height: auto;
-
-        min-height: 70px;
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 10px;
-
-        padding: 10px;
-    }
-
-    .main {
-        height: calc(100vh - 130px);
-    }
-
-    #sidebar {
-        width: 250px;
-
-        min-width: 250px;
-    }
-
-    .layers {
-        width: 100%;
-
-        flex-wrap: wrap;
-    }
-
-    .layer-btn {
-        font-size: 11px;
-
-        padding: 9px 11px;
-    }
-}
-
-
-@media (max-width: 650px) {
-
-    #sidebar {
-        width: 220px;
-
-        min-width: 220px;
-
-        padding: 10px;
-    }
-
-    header h1 {
         font-size: 18px;
     }
 
-    .layer-btn {
-        padding: 8px 10px;
+    .mode-tab {
+        min-width: 105px;
+
+        padding: 0 11px;
+
+        font-size: 11px;
+    }
+
+    #sidebar {
+        width: 260px;
+        min-width: 260px;
+    }
+}
+
+
+@media (max-width: 800px) {
+
+    .topbar {
+        height: auto;
+
+        min-height: 68px;
+
+        flex-wrap: wrap;
+
+        padding: 7px 10px;
+    }
+
+    .logo {
+        width: 100%;
+
+        height: 32px;
+    }
+
+    .mode-tabs {
+        height: 40px;
+
+        width: 100%;
+    }
+
+    .mode-tab {
+        flex: 1;
+
+        min-width: 0;
+
+        padding: 0 5px;
 
         font-size: 10px;
     }
 
-    .terrain-btn,
-    .area-btn,
-    .country-btn,
-    .city-btn {
-        padding: 8px;
-
-        font-size: 12px;
+    .main {
+        height: calc(100vh - 107px);
     }
 
-    .tool-btn {
-        padding: 7px;
+    #sidebar {
+        width: 235px;
+        min-width: 235px;
 
-        font-size: 12px;
+        padding: 11px;
     }
 }
 ```
