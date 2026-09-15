@@ -1,11 +1,461 @@
 ```css
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #1b1b1b;
+    color: #eee;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    height: 70px;
+    background: #252525;
+    border-bottom: 1px solid #444;
+
+    display: flex;
+    align-items: center;
+    gap: 25px;
+
+    padding: 0 20px;
+}
+
+header h1 {
+    margin: 0;
+    white-space: nowrap;
+    font-size: 22px;
+}
+
+.layers {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.layer-btn {
+    border: none;
+    padding: 11px 14px;
+
+    background: #333;
+    color: #ddd;
+
+    border-radius: 6px;
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.layer-btn:hover {
+    background: #444;
+}
+
+.layer-btn.active {
+    background: #666;
+    color: white;
+}
+
+/* =========================
+   MAIN LAYOUT
+========================= */
+
+.main {
+    display: flex;
+    height: calc(100vh - 70px);
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+#sidebar {
+    width: 290px;
+    min-width: 290px;
+
+    background: #242424;
+    border-right: 1px solid #444;
+
+    padding: 15px;
+
+    overflow-y: auto;
+}
+
+.layer-panel h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.layer-panel h3 {
+    margin-top: 18px;
+    margin-bottom: 8px;
+
+    color: #ccc;
+}
+
+/* =========================
+   HIDDEN
+========================= */
+
+.hidden {
+    display: none;
+}
+
+/* =========================
+   LISTS
+========================= */
+
+.terrain-list,
+.area-list,
+.country-list,
+.city-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+
+    margin-bottom: 20px;
+}
+
+/* =========================
+   LIST BUTTONS
+========================= */
+
+.terrain-btn,
+.area-btn,
+.country-btn,
+.city-btn {
+    width: 100%;
+
+    border: 1px solid #555;
+
+    background: #303030;
+    color: #eee;
+
+    padding: 10px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+    text-align: left;
+}
+
+.terrain-btn:hover,
+.area-btn:hover,
+.country-btn:hover,
+.city-btn:hover {
+    background: #3d3d3d;
+}
+
+.terrain-btn.active,
+.area-btn.active,
+.country-btn.active,
+.city-btn.active {
+    outline: 2px solid white;
+}
+
+/* =========================
+   TOOLS
+========================= */
+
+.tools {
+    display: flex;
+    gap: 7px;
+
+    margin-bottom: 12px;
+}
+
+.tool-btn {
+    flex: 1;
+
+    border: 1px solid #555;
+
+    background: #303030;
+    color: #eee;
+
+    padding: 9px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
+.tool-btn:hover {
+    background: #414141;
+}
+
+.tool-btn.active {
+    background: #666;
+    border-color: #aaa;
+}
+
+/* =========================
+   MAIN ACTION BUTTON
+========================= */
+
+.main-action {
+    width: 100%;
+
+    background: #4a4a4a;
+    color: white;
+
+    border: 1px solid #666;
+    border-radius: 5px;
+
+    padding: 11px;
+
+    margin-bottom: 12px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.main-action:hover {
+    background: #5a5a5a;
+}
+
+/* =========================
+   BRUSH
+========================= */
+
+.brush-label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #ccc;
+}
+
+input[type="range"] {
+    width: 100%;
+
+    margin-bottom: 20px;
+}
+
+/* =========================
+   INFORMATION
+========================= */
+
+.info {
+    color: #aaa;
+
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* =========================
+   INFRASTRUCTURE
+========================= */
+
+.infra-section {
+    border-top: 1px solid #444;
+
+    padding-top: 10px;
+    margin-top: 15px;
+}
+
+/* =========================
+   COMMON SECTION
+========================= */
+
+.common-section {
+    border-top: 1px solid #444;
+
+    margin-top: 20px;
+    padding-top: 15px;
+}
+
+/* =========================
+   SAVE / LOAD / DELETE
+========================= */
+
+.save-btn,
+.load-btn,
+.danger-btn {
+    width: 100%;
+
+    display: block;
+
+    text-align: center;
+
+    padding: 10px;
+
+    margin-bottom: 8px;
+
+    border-radius: 5px;
+    border: 1px solid #555;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.save-btn {
+    background: #365d3d;
+    color: white;
+}
+
+.save-btn:hover {
+    background: #43734b;
+}
+
+.load-btn {
+    background: #3b4e65;
+    color: white;
+}
+
+.load-btn:hover {
+    background: #4a6280;
+}
+
+.danger-btn {
+    background: #633636;
+    color: white;
+}
+
+.danger-btn:hover {
+    background: #7a4141;
+}
+
+/* =========================
+   GAME AREA
+========================= */
+
+#gameArea {
+    position: relative;
+
+    flex: 1;
+
+    overflow: hidden;
+
+    background: #111;
+}
+
+#gameCanvas {
+    display: block;
+
+    cursor: crosshair;
+
+    user-select: none;
+}
+
+/* =========================
+   COORDINATES
+========================= */
+
+#coordinates {
+    position: absolute;
+
+    left: 15px;
+    top: 15px;
+
+    z-index: 10;
+
+    background: rgba(0, 0, 0, 0.75);
+
+    padding: 7px 10px;
+
+    border-radius: 5px;
+
+    pointer-events: none;
+
+    font-size: 13px;
+}
+
+/* =========================
+   ZOOM CONTROLS
+========================= */
+
+.zoom-controls {
+    position: absolute;
+
+    right: 15px;
+    bottom: 15px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+
+    background: rgba(0, 0, 0, 0.75);
+
+    padding: 6px;
+
+    border-radius: 6px;
+}
+
+.zoom-controls button {
+    width: 35px;
+    height: 32px;
+
+    border: 1px solid #555;
+
+    background: #333;
+    color: white;
+
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.zoom-controls button:hover {
+    background: #444;
+}
+
+#zoomValue {
+    min-width: 55px;
+
+    text-align: center;
+
+    color: #ddd;
+
+    font-size: 13px;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+#sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+    background: #1d1d1d;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+    background: #444;
+
+    border-radius: 4px;
+}
+
+#sidebar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media (max-width: 900px) {
 
     header {
         height: auto;
         min-height: 70px;
+
         flex-direction: column;
         align-items: flex-start;
+
         padding: 10px;
     }
 
@@ -24,6 +474,44 @@
 
     .layer-btn {
         font-size: 11px;
+    }
+}
+
+/* =========================
+   SMALL SCREENS
+========================= */
+
+@media (max-width: 650px) {
+
+    #sidebar {
+        width: 220px;
+        min-width: 220px;
+
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 18px;
+    }
+
+    .layer-btn {
+        padding: 8px 10px;
+        font-size: 10px;
+    }
+
+    .terrain-btn,
+    .area-btn,
+    .country-btn,
+    .city-btn {
+        padding: 8px;
+
+        font-size: 12px;
+    }
+
+    .tool-btn {
+        padding: 7px;
+
+        font-size: 12px;
     }
 }
 ```
