@@ -1,37 +1,37 @@
 ```javascript
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ======================================================
+    // =========================================================
     // CANVAS
-    // ======================================================
+    // =========================================================
 
     const canvas = document.getElementById("gameCanvas");
 
     if (!canvas) {
-        console.error("CHYBA: #gameCanvas neexistuje v index.html");
+        console.error("Chýba #gameCanvas");
         return;
     }
 
     const ctx = canvas.getContext("2d");
 
     if (!ctx) {
-        console.error("CHYBA: Canvas 2D context sa nepodarilo vytvoriť.");
+        console.error("Canvas nepodporuje 2D.");
         return;
     }
 
 
-    // ======================================================
-    // NASTAVENIE MAPY
-    // ======================================================
+    // =========================================================
+    // MAPA
+    // =========================================================
 
     const TILE_SIZE = 32;
     const MAP_WIDTH = 200;
     const MAP_HEIGHT = 200;
 
 
-    // ======================================================
-    // ZOOM A POSUN
-    // ======================================================
+    // =========================================================
+    // ZOOM / POSUN
+    // =========================================================
 
     let zoom = 1;
 
@@ -42,11 +42,16 @@ document.addEventListener("DOMContentLoaded", () => {
     let offsetY = 20;
 
 
-    // ======================================================
+    // =========================================================
     // TERÉN
-    // ======================================================
+    // =========================================================
 
     const terrainTypes = {
+
+        lowland: {
+            name: "Nížina",
+            color: "#8dbb65"
+        },
 
         desert: {
             name: "Púšť",
@@ -61,11 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
         highMountain: {
             name: "Vysoké hory",
             color: "#eeeeee"
-        },
-
-        lowland: {
-            name: "Nížina",
-            color: "#8dbb65"
         },
 
         tundra: {
@@ -91,9 +91,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
 
-    // ======================================================
+    // =========================================================
     // SVET
-    // ======================================================
+    // =========================================================
 
     let world = [];
 
@@ -114,15 +114,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 };
 
             }
+
         }
+
     }
 
     createWorld();
 
 
-    // ======================================================
+    // =========================================================
     // OBLASTI / KRAJINY / MESTÁ
-    // ======================================================
+    // =========================================================
 
     let areas = {};
     let countries = {};
@@ -133,16 +135,16 @@ document.addEventListener("DOMContentLoaded", () => {
     let selectedCity = null;
 
 
-    // ======================================================
+    // =========================================================
     // REŽIM
-    // ======================================================
+    // =========================================================
 
     let currentMode = "terrain";
 
 
-    // ======================================================
+    // =========================================================
     // NÁSTROJE
-    // ======================================================
+    // =========================================================
 
     let areaTool = "brush";
     let infraTool = "cityPlace";
@@ -153,9 +155,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let selectedTerrain = "lowland";
 
 
-    // ======================================================
+    // =========================================================
     // MYŠ
-    // ======================================================
+    // =========================================================
 
     let mouseDown = false;
     let isPanning = false;
@@ -167,9 +169,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let mouseWorldY = -1;
 
 
-    // ======================================================
-    // POMOCNÉ FUNKCIE
-    // ======================================================
+    // =========================================================
+    // POMOCNÉ
+    // =========================================================
 
     function get(id) {
         return document.getElementById(id);
@@ -189,6 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
             x < MAP_WIDTH &&
             y < MAP_HEIGHT
         );
+
     }
 
 
@@ -204,6 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
             x: Math.floor(worldX / TILE_SIZE),
             y: Math.floor(worldY / TILE_SIZE)
         };
+
     }
 
 
@@ -247,12 +251,13 @@ document.addEventListener("DOMContentLoaded", () => {
             endX,
             endY
         };
+
     }
 
 
-    // ======================================================
-    // CANVAS
-    // ======================================================
+    // =========================================================
+    // VEĽKOSŤ CANVASU
+    // =========================================================
 
     function resizeCanvas() {
 
@@ -262,40 +267,39 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        canvas.width = parent.clientWidth;
-        canvas.height = parent.clientHeight;
+        const width = parent.clientWidth;
+        const height = parent.clientHeight;
+
+        if (width <= 0 || height <= 0) {
+            return;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
 
         draw();
+
     }
 
-    window.addEventListener(
-        "resize",
-        resizeCanvas
-    );
+    window.addEventListener("resize", resizeCanvas);
 
 
-    // ======================================================
-    // TERÉN
-    // ======================================================
+    // =========================================================
+    // KRESLENIE TERÉNU
+    // =========================================================
 
     function drawTerrain() {
 
         const bounds = getVisibleBounds();
 
-        for (
-            let y = bounds.startY;
-            y < bounds.endY;
-            y++
-        ) {
+        for (let y = bounds.startY; y < bounds.endY; y++) {
 
-            for (
-                let x = bounds.startX;
-                x < bounds.endX;
-                x++
-            ) {
+            for (let x = bounds.startX; x < bounds.endX; x++) {
 
                 const tile = world[y][x];
-                const terrain = terrainTypes[tile.terrain];
+
+                const terrain =
+                    terrainTypes[tile.terrain];
 
                 if (!terrain) {
                     continue;
@@ -320,32 +324,25 @@ document.addEventListener("DOMContentLoaded", () => {
                     size,
                     size
                 );
+
             }
+
         }
+
     }
 
 
-    // ======================================================
+    // =========================================================
     // OBLASTI
-    // ======================================================
+    // =========================================================
 
     function drawAreas() {
 
         const bounds = getVisibleBounds();
 
-        // Výplň oblastí
+        for (let y = bounds.startY; y < bounds.endY; y++) {
 
-        for (
-            let y = bounds.startY;
-            y < bounds.endY;
-            y++
-        ) {
-
-            for (
-                let x = bounds.startX;
-                x < bounds.endX;
-                x++
-            ) {
+            for (let x = bounds.startX; x < bounds.endX; x++) {
 
                 const tile = world[y][x];
 
@@ -372,28 +369,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     size,
                     size
                 );
+
             }
+
         }
 
 
-        // Hranice oblastí
+        // Hranice
 
         ctx.save();
 
         ctx.strokeStyle = "#f39c12";
         ctx.lineWidth = Math.max(1, 2 * zoom);
 
-        for (
-            let y = bounds.startY;
-            y < bounds.endY;
-            y++
-        ) {
+        for (let y = bounds.startY; y < bounds.endY; y++) {
 
-            for (
-                let x = bounds.startX;
-                x < bounds.endX;
-                x++
-            ) {
+            for (let x = bounds.startX; x < bounds.endX; x++) {
 
                 const tile = world[y][x];
 
@@ -413,23 +404,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     TILE_SIZE * zoom;
 
 
-                // Ľavý okraj
-
                 if (
                     x === 0 ||
                     world[y][x - 1].area !== tile.area
                 ) {
 
                     ctx.beginPath();
-
                     ctx.moveTo(px, py);
                     ctx.lineTo(px, py + size);
-
                     ctx.stroke();
+
                 }
 
-
-                // Pravý okraj
 
                 if (
                     x === MAP_WIDTH - 1 ||
@@ -437,15 +423,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 ) {
 
                     ctx.beginPath();
-
                     ctx.moveTo(px + size, py);
                     ctx.lineTo(px + size, py + size);
-
                     ctx.stroke();
+
                 }
 
-
-                // Horný okraj
 
                 if (
                     y === 0 ||
@@ -453,15 +436,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 ) {
 
                     ctx.beginPath();
-
                     ctx.moveTo(px, py);
                     ctx.lineTo(px + size, py);
-
                     ctx.stroke();
+
                 }
 
-
-                // Dolný okraj
 
                 if (
                     y === MAP_HEIGHT - 1 ||
@@ -469,24 +449,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 ) {
 
                     ctx.beginPath();
-
                     ctx.moveTo(px, py + size);
                     ctx.lineTo(px + size, py + size);
-
                     ctx.stroke();
+
                 }
+
             }
+
         }
 
         ctx.restore();
 
         drawAreaNames();
+
     }
 
-
-    // ======================================================
-    // NÁZVY OBLASTÍ
-    // ======================================================
 
     function drawAreaNames() {
 
@@ -494,10 +472,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const area = areas[id];
 
-            if (
-                !area.tiles ||
-                area.tiles.length === 0
-            ) {
+            if (!area.tiles || area.tiles.length === 0) {
                 continue;
             }
 
@@ -508,6 +483,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 totalX += tile.x;
                 totalY += tile.y;
+
             }
 
             const centerX =
@@ -527,7 +503,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 (centerY + 0.5) *
                 TILE_SIZE *
                 zoom;
-
 
             ctx.save();
 
@@ -557,29 +532,23 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
             ctx.restore();
+
         }
+
     }
 
 
-    // ======================================================
+    // =========================================================
     // KRAJINY
-    // ======================================================
+    // =========================================================
 
     function drawCountries() {
 
         const bounds = getVisibleBounds();
 
-        for (
-            let y = bounds.startY;
-            y < bounds.endY;
-            y++
-        ) {
+        for (let y = bounds.startY; y < bounds.endY; y++) {
 
-            for (
-                let x = bounds.startX;
-                x < bounds.endX;
-                x++
-            ) {
+            for (let x = bounds.startX; x < bounds.endX; x++) {
 
                 const tile = world[y][x];
 
@@ -618,16 +587,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
                 ctx.restore();
+
             }
+
         }
 
         drawCountryNames();
+
     }
 
-
-    // ======================================================
-    // NÁZVY KRAJÍN
-    // ======================================================
 
     function drawCountryNames() {
 
@@ -648,8 +616,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         totalX += x;
                         totalY += y;
                         count++;
+
                     }
+
                 }
+
             }
 
             if (count === 0) {
@@ -673,7 +644,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 (centerY + 0.5) *
                 TILE_SIZE *
                 zoom;
-
 
             ctx.save();
 
@@ -704,13 +674,15 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
             ctx.restore();
+
         }
+
     }
 
 
-    // ======================================================
+    // =========================================================
     // MESTÁ
-    // ======================================================
+    // =========================================================
 
     function drawCities() {
 
@@ -737,10 +709,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 TILE_SIZE *
                 zoom;
 
-
             ctx.save();
 
-            // Červená bodka
+            // bodka
 
             ctx.fillStyle = "#e53935";
 
@@ -757,7 +728,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ctx.fill();
 
 
-            // Obruba
+            // obruba
 
             ctx.strokeStyle =
                 "rgba(255,255,255,0.8)";
@@ -768,7 +739,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ctx.stroke();
 
 
-            // Názov
+            // názov
 
             ctx.font =
                 `bold ${Math.max(
@@ -797,13 +768,15 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
             ctx.restore();
+
         }
+
     }
 
 
-    // ======================================================
+    // =========================================================
     // MRIEŽKA
-    // ======================================================
+    // =========================================================
 
     function drawGrid() {
 
@@ -820,12 +793,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         ctx.lineWidth = 1;
 
-
-        for (
-            let x = bounds.startX;
-            x <= bounds.endX;
-            x++
-        ) {
+        for (let x = bounds.startX; x <= bounds.endX; x++) {
 
             const px =
                 offsetX +
@@ -850,14 +818,11 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
             ctx.stroke();
+
         }
 
 
-        for (
-            let y = bounds.startY;
-            y <= bounds.endY;
-            y++
-        ) {
+        for (let y = bounds.startY; y <= bounds.endY; y++) {
 
             const py =
                 offsetY +
@@ -882,19 +847,32 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
             ctx.stroke();
+
         }
 
         ctx.restore();
+
     }
 
 
-    // ======================================================
+    // =========================================================
     // HLAVNÉ KRESLENIE
-    // ======================================================
+    // =========================================================
 
     function draw() {
 
         ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        // tmavé pozadie mimo mapy
+
+        ctx.fillStyle = "#101010";
+
+        ctx.fillRect(
             0,
             0,
             canvas.width,
@@ -906,12 +884,13 @@ document.addEventListener("DOMContentLoaded", () => {
         drawCountries();
         drawCities();
         drawGrid();
+
     }
 
 
-    // ======================================================
-    // OBLASTI — ODSTRÁNENIE
-    // ======================================================
+    // =========================================================
+    // OBLASTI
+    // =========================================================
 
     function removeTileFromArea(x, y) {
 
@@ -934,15 +913,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         tile.x !== x ||
                         tile.y !== y
                 );
+
         }
 
         world[y][x].area = null;
+
     }
 
-
-    // ======================================================
-    // OBLASTI — PRIDANIE
-    // ======================================================
 
     function addTileToArea(areaId, x, y) {
 
@@ -967,32 +944,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 x,
                 y
             });
+
         }
+
     }
 
 
-    // ======================================================
+    // =========================================================
     // TERÉN
-    // ======================================================
+    // =========================================================
 
     function paintTerrain(x, y) {
+
+        if (!isInsideMap(x, y)) {
+            return;
+        }
 
         const radius =
             Math.floor(
                 terrainBrushSize / 2
             );
 
-        for (
-            let dy = -radius;
-            dy <= radius;
-            dy++
-        ) {
+        for (let dy = -radius; dy <= radius; dy++) {
 
-            for (
-                let dx = -radius;
-                dx <= radius;
-                dx++
-            ) {
+            for (let dx = -radius; dx <= radius; dx++) {
 
                 const tx = x + dx;
                 const ty = y + dy;
@@ -1004,10 +979,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 world[ty][tx].terrain =
                     selectedTerrain;
 
-
-                // Rieka a more nemôžu byť
-                // súčasťou oblasti.
-
                 if (
                     selectedTerrain === "river" ||
                     selectedTerrain === "sea"
@@ -1017,37 +988,37 @@ document.addEventListener("DOMContentLoaded", () => {
                         tx,
                         ty
                     );
+
                 }
+
             }
+
         }
 
         updateAreaList();
         draw();
+
     }
 
 
-    // ======================================================
-    // OBLASTI — MAĽOVANIE
-    // ======================================================
+    // =========================================================
+    // MAĽOVANIE OBLASTÍ
+    // =========================================================
 
     function paintArea(x, y) {
+
+        if (!isInsideMap(x, y)) {
+            return;
+        }
 
         const radius =
             Math.floor(
                 areaBrushSize / 2
             );
 
-        for (
-            let dy = -radius;
-            dy <= radius;
-            dy++
-        ) {
+        for (let dy = -radius; dy <= radius; dy++) {
 
-            for (
-                let dx = -radius;
-                dx <= radius;
-                dx++
-            ) {
+            for (let dx = -radius; dx <= radius; dx++) {
 
                 const tx = x + dx;
                 const ty = y + dy;
@@ -1059,18 +1030,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 const tile =
                     world[ty][tx];
 
-
-                // More a rieka sú zakázané.
-
                 if (
                     tile.terrain === "river" ||
                     tile.terrain === "sea"
                 ) {
                     continue;
                 }
-
-
-                // Guma
 
                 if (areaTool === "eraser") {
 
@@ -1082,13 +1047,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     continue;
                 }
 
-
                 if (!selectedArea) {
                     continue;
                 }
-
-
-                // Odstránenie zo starej oblasti
 
                 if (
                     tile.area &&
@@ -1099,8 +1060,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         tx,
                         ty
                     );
-                }
 
+                }
 
                 tile.area = selectedArea;
 
@@ -1109,17 +1070,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     tx,
                     ty
                 );
+
             }
+
         }
 
         updateAreaList();
         draw();
+
     }
 
 
-    // ======================================================
+    // =========================================================
     // VYTVORENIE OBLASTI
-    // ======================================================
+    // =========================================================
 
     function createArea() {
 
@@ -1143,12 +1107,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         updateAreaList();
         draw();
+
     }
 
 
-    // ======================================================
-    // VYTVORENIE KRAJINY
-    // ======================================================
+    // =========================================================
+    // KRAJINY
+    // =========================================================
 
     function createCountry() {
 
@@ -1169,12 +1134,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             color:
                 randomCountryColor()
+
         };
 
         selectedCountry = id;
 
         updateCountryList();
         draw();
+
     }
 
 
@@ -1197,124 +1164,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         return colors[
             Math.floor(
-                Math.random() * colors.length
+                Math.random() *
+                colors.length
             )
         ];
+
     }
 
-
-    // ======================================================
-    // VYTVORENIE MESTA
-    // ======================================================
-
-    function createCity() {
-
-        const name =
-            prompt("Názov mesta:");
-
-        if (!name || !name.trim()) {
-            return;
-        }
-
-        const id =
-            "city_" +
-            Date.now();
-
-        cities[id] = {
-
-            name: name.trim(),
-
-            x: null,
-            y: null
-        };
-
-        selectedCity = id;
-
-        infraTool = "cityPlace";
-
-        updateCityTools();
-        updateCityList();
-        draw();
-
-        alert(
-            "Teraz klikni na políčko mapy, kam chceš mesto umiestniť."
-        );
-    }
-
-
-    // ======================================================
-    // UMIESTNENIE MESTA
-    // ======================================================
-
-    function placeCity(x, y) {
-
-        if (!selectedCity) {
-            return;
-        }
-
-        if (!isInsideMap(x, y)) {
-            return;
-        }
-
-        for (const id in cities) {
-
-            const city = cities[id];
-
-            if (
-                id !== selectedCity &&
-                city.x === x &&
-                city.y === y
-            ) {
-
-                alert(
-                    "Na tomto políčku už je mesto."
-                );
-
-                return;
-            }
-        }
-
-        cities[selectedCity].x = x;
-        cities[selectedCity].y = y;
-
-        updateCityList();
-        draw();
-    }
-
-
-    // ======================================================
-    // VYMAZANIE MESTA
-    // ======================================================
-
-    function eraseCity(x, y) {
-
-        for (const id in cities) {
-
-            const city = cities[id];
-
-            if (
-                city.x === x &&
-                city.y === y
-            ) {
-
-                delete cities[id];
-
-                if (selectedCity === id) {
-                    selectedCity = null;
-                }
-
-                updateCityList();
-                draw();
-
-                return;
-            }
-        }
-    }
-
-
-    // ======================================================
-    // OBLASŤ → KRAJINA
-    // ======================================================
 
     function assignAreaToCountry(
         areaId,
@@ -1342,606 +1198,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 world[tile.y][tile.x].country =
                     countryId;
+
             }
+
         }
 
         draw();
+
     }
 
-
-    // ======================================================
-    // ZOZNAM OBLASTÍ
-    // ======================================================
-
-    function updateAreaList() {
-
-        const list = get("areaList");
-
-        if (!list) {
-            return;
-        }
-
-        list.innerHTML = "";
-
-        for (const id in areas) {
-
-            const area = areas[id];
-
-            const button =
-                document.createElement("button");
-
-            button.type = "button";
-            button.className = "area-btn";
-
-            if (selectedArea === id) {
-                button.classList.add("active");
-            }
-
-            button.textContent = area.name;
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    selectedArea = id;
-
-                    updateAreaList();
-                    draw();
-                }
-            );
-
-            list.appendChild(button);
-        }
-    }
-
-
-    // ======================================================
-    // ZOZNAM KRAJÍN
-    // ======================================================
-
-    function updateCountryList() {
-
-        const list = get("countryList");
-
-        if (!list) {
-            return;
-        }
-
-        list.innerHTML = "";
-
-        for (const id in countries) {
-
-            const country =
-                countries[id];
-
-            const button =
-                document.createElement("button");
-
-            button.type = "button";
-            button.className = "country-btn";
-
-            if (selectedCountry === id) {
-                button.classList.add("active");
-            }
-
-            const dot =
-                document.createElement("span");
-
-            dot.style.display = "inline-block";
-            dot.style.width = "12px";
-            dot.style.height = "12px";
-            dot.style.borderRadius = "50%";
-            dot.style.background = country.color;
-            dot.style.marginRight = "8px";
-
-            button.appendChild(dot);
-
-            button.appendChild(
-                document.createTextNode(
-                    country.name
-                )
-            );
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    selectedCountry = id;
-
-                    updateCountryList();
-                    draw();
-                }
-            );
-
-            list.appendChild(button);
-        }
-    }
-
-
-    // ======================================================
-    // ZOZNAM MIEST
-    // ======================================================
-
-    function updateCityList() {
-
-        const list = get("cityList");
-
-        if (!list) {
-            return;
-        }
-
-        list.innerHTML = "";
-
-        for (const id in cities) {
-
-            const city = cities[id];
-
-            const button =
-                document.createElement("button");
-
-            button.type = "button";
-            button.className = "city-btn";
-
-            if (selectedCity === id) {
-                button.classList.add("active");
-            }
-
-            button.textContent =
-                "🔴 " + city.name;
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    selectedCity = id;
-                    infraTool = "cityPlace";
-
-                    updateCityTools();
-                    updateCityList();
-                    draw();
-                }
-            );
-
-            list.appendChild(button);
-        }
-    }
-
-
-    // ======================================================
-    // REŽIMY
-    // ======================================================
-
-    function setMode(mode) {
-
-        currentMode = mode;
-
-        const panels = {
-            terrain: get("terrainPanel"),
-            area: get("areaPanel"),
-            country: get("countryPanel"),
-            infra: get("infraPanel")
-        };
-
-        for (const key in panels) {
-
-            if (!panels[key]) {
-                continue;
-            }
-
-            panels[key].classList.toggle(
-                "hidden",
-                key !== mode
-            );
-        }
-
-        document
-            .querySelectorAll(".mode-tab")
-            .forEach(button => {
-
-                button.classList.toggle(
-                    "active",
-                    button.dataset.mode === mode
-                );
-            });
-
-        draw();
-    }
-
-
-    // ======================================================
-    // MESTÁ — NÁSTROJE
-    // ======================================================
-
-    function updateCityTools() {
-
-        const place = get("cityPlaceBtn");
-        const eraser = get("cityEraserBtn");
-
-        if (place) {
-
-            place.classList.toggle(
-                "active",
-                infraTool === "cityPlace"
-            );
-        }
-
-        if (eraser) {
-
-            eraser.classList.toggle(
-                "active",
-                infraTool === "cityEraser"
-            );
-        }
-    }
-
-
-    // ======================================================
-    // ZOOM
-    // ======================================================
-
-    function setZoom(
-        newZoom,
-        centerX = canvas.width / 2,
-        centerY = canvas.height / 2
-    ) {
-
-        newZoom =
-            clamp(
-                newZoom,
-                MIN_ZOOM,
-                MAX_ZOOM
-            );
-
-        const worldBeforeX =
-            (centerX - offsetX) / zoom;
-
-        const worldBeforeY =
-            (centerY - offsetY) / zoom;
-
-        zoom = newZoom;
-
-        offsetX =
-            centerX -
-            worldBeforeX * zoom;
-
-        offsetY =
-            centerY -
-            worldBeforeY * zoom;
-
-        updateZoomDisplay();
-        draw();
-    }
-
-
-    function updateZoomDisplay() {
-
-        const element = get("zoomValue");
-
-        if (!element) {
-            return;
-        }
-
-        element.textContent =
-            Math.round(zoom * 100) + "%";
-    }
-
-
-    // ======================================================
-    // KOLESKO
-    // ======================================================
-
-    canvas.addEventListener(
-        "wheel",
-        event => {
-
-            event.preventDefault();
-
-            const rect =
-                canvas.getBoundingClientRect();
-
-            const mouseX =
-                event.clientX -
-                rect.left;
-
-            const mouseY =
-                event.clientY -
-                rect.top;
-
-            const factor =
-                event.deltaY < 0
-                    ? 1.12
-                    : 0.89;
-
-            setZoom(
-                zoom * factor,
-                mouseX,
-                mouseY
-            );
-        },
-        { passive: false }
-    );
-
-
-    // ======================================================
-    // MYŠ — DOWN
-    // ======================================================
-
-    canvas.addEventListener(
-        "mousedown",
-        event => {
-
-            const rect =
-                canvas.getBoundingClientRect();
-
-            const mouseX =
-                event.clientX -
-                rect.left;
-
-            const mouseY =
-                event.clientY -
-                rect.top;
-
-
-            // Pravé tlačidlo = posun
-
-            if (event.button === 2) {
-
-                isPanning = true;
-
-                lastMouseX =
-                    event.clientX;
-
-                lastMouseY =
-                    event.clientY;
-
-                return;
-            }
-
-
-            if (event.button !== 0) {
-                return;
-            }
-
-
-            const pos =
-                screenToWorld(
-                    mouseX,
-                    mouseY
-                );
-
-            mouseWorldX = pos.x;
-            mouseWorldY = pos.y;
-
-            updateCoordinates();
-
-
-            // TERÉN
-
-            if (currentMode === "terrain") {
-
-                mouseDown = true;
-
-                paintTerrain(
-                    pos.x,
-                    pos.y
-                );
-
-                return;
-            }
-
-
-            // OBLASTI
-
-            if (currentMode === "area") {
-
-                mouseDown = true;
-
-                paintArea(
-                    pos.x,
-                    pos.y
-                );
-
-                return;
-            }
-
-
-            // KRAJINY
-
-            if (currentMode === "country") {
-
-                handleCountryClick(
-                    pos.x,
-                    pos.y
-                );
-
-                return;
-            }
-
-
-            // INFRAŠTRUKTÚRA
-
-            if (currentMode === "infra") {
-
-                if (
-                    infraTool === "cityPlace"
-                ) {
-
-                    placeCity(
-                        pos.x,
-                        pos.y
-                    );
-
-                } else if (
-                    infraTool === "cityEraser"
-                ) {
-
-                    eraseCity(
-                        pos.x,
-                        pos.y
-                    );
-                }
-            }
-        }
-    );
-
-
-    // ======================================================
-    // MYŠ — MOVE
-    // ======================================================
-
-    canvas.addEventListener(
-        "mousemove",
-        event => {
-
-            const rect =
-                canvas.getBoundingClientRect();
-
-            const mouseX =
-                event.clientX -
-                rect.left;
-
-            const mouseY =
-                event.clientY -
-                rect.top;
-
-            const pos =
-                screenToWorld(
-                    mouseX,
-                    mouseY
-                );
-
-            mouseWorldX = pos.x;
-            mouseWorldY = pos.y;
-
-            updateCoordinates();
-
-
-            // Posúvanie
-
-            if (isPanning) {
-
-                offsetX +=
-                    event.clientX -
-                    lastMouseX;
-
-                offsetY +=
-                    event.clientY -
-                    lastMouseY;
-
-                lastMouseX =
-                    event.clientX;
-
-                lastMouseY =
-                    event.clientY;
-
-                draw();
-
-                return;
-            }
-
-
-            if (!mouseDown) {
-                return;
-            }
-
-
-            // Terén
-
-            if (currentMode === "terrain") {
-
-                paintTerrain(
-                    pos.x,
-                    pos.y
-                );
-
-                return;
-            }
-
-
-            // Oblasti
-
-            if (currentMode === "area") {
-
-                paintArea(
-                    pos.x,
-                    pos.y
-                );
-            }
-        }
-    );
-
-
-    // ======================================================
-    // MYŠ — UP
-    // ======================================================
-
-    window.addEventListener(
-        "mouseup",
-        event => {
-
-            if (event.button === 0) {
-                mouseDown = false;
-            }
-
-            if (event.button === 2) {
-                isPanning = false;
-            }
-        }
-    );
-
-
-    canvas.addEventListener(
-        "mouseleave",
-        () => {
-
-            mouseDown = false;
-            isPanning = false;
-        }
-    );
-
-
-    canvas.addEventListener(
-        "contextmenu",
-        event => {
-            event.preventDefault();
-        }
-    );
-
-
-    // ======================================================
-    // SÚRADNICE
-    // ======================================================
-
-    function updateCoordinates() {
-
-        const element =
-            get("coordinates");
-
-        if (!element) {
-            return;
-        }
-
-        if (
-            isInsideMap(
-                mouseWorldX,
-                mouseWorldY
-            )
-        ) {
-
-            element.textContent =
-                `X: ${mouseWorldX} | Y: ${mouseWorldY}`;
-
-        } else {
-
-            element.textContent =
-                "X: — | Y: —";
-        }
-    }
-
-
-    // ======================================================
-    // KRAJINA — KLIKNUTIE
-    // ======================================================
 
     function handleCountryClick(x, y) {
 
@@ -1976,33 +1241,843 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         updateCountryList();
-        draw();
+
     }
 
 
-    // ======================================================
-    // TLAČIDLÁ — HORNÉ MENU
-    // ======================================================
+    // =========================================================
+    // MESTÁ
+    // =========================================================
 
-    document
-        .querySelectorAll(".mode-tab")
-        .forEach(button => {
+    function createCity() {
+
+        const name =
+            prompt("Názov mesta:");
+
+        if (!name || !name.trim()) {
+            return;
+        }
+
+        const id =
+            "city_" +
+            Date.now();
+
+        cities[id] = {
+
+            name: name.trim(),
+
+            x: null,
+            y: null
+
+        };
+
+        selectedCity = id;
+
+        infraTool = "cityPlace";
+
+        updateCityTools();
+        updateCityList();
+        draw();
+
+        alert(
+            "Teraz klikni na políčko mapy, kam chceš mesto umiestniť."
+        );
+
+    }
+
+
+    function placeCity(x, y) {
+
+        if (!selectedCity) {
+            return;
+        }
+
+        if (!isInsideMap(x, y)) {
+            return;
+        }
+
+        for (const id in cities) {
+
+            const city = cities[id];
+
+            if (
+                id !== selectedCity &&
+                city.x === x &&
+                city.y === y
+            ) {
+
+                alert(
+                    "Na tomto políčku už je mesto."
+                );
+
+                return;
+            }
+
+        }
+
+        cities[selectedCity].x = x;
+        cities[selectedCity].y = y;
+
+        updateCityList();
+        draw();
+
+    }
+
+
+    function eraseCity(x, y) {
+
+        for (const id in cities) {
+
+            const city = cities[id];
+
+            if (
+                city.x === x &&
+                city.y === y
+            ) {
+
+                delete cities[id];
+
+                if (selectedCity === id) {
+                    selectedCity = null;
+                }
+
+                updateCityList();
+                draw();
+
+                return;
+            }
+
+        }
+
+    }
+
+
+    // =========================================================
+    // ZOZNAM OBLASTÍ
+    // =========================================================
+
+    function updateAreaList() {
+
+        const list =
+            get("areaList");
+
+        if (!list) {
+            return;
+        }
+
+        list.innerHTML = "";
+
+        for (const id in areas) {
+
+            const area = areas[id];
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+            button.className = "area-btn";
+
+            if (selectedArea === id) {
+                button.classList.add("active");
+            }
+
+            button.textContent =
+                area.name;
 
             button.addEventListener(
                 "click",
                 () => {
 
-                    setMode(
-                        button.dataset.mode
-                    );
+                    selectedArea = id;
+
+                    updateAreaList();
+                    draw();
+
                 }
             );
-        });
+
+            list.appendChild(button);
+
+        }
+
+    }
 
 
-    // ======================================================
-    // TLAČIDLÁ — TERÉN
-    // ======================================================
+    // =========================================================
+    // ZOZNAM KRAJÍN
+    // =========================================================
+
+    function updateCountryList() {
+
+        const list =
+            get("countryList");
+
+        if (!list) {
+            return;
+        }
+
+        list.innerHTML = "";
+
+        for (const id in countries) {
+
+            const country =
+                countries[id];
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+            button.className =
+                "country-btn";
+
+            if (selectedCountry === id) {
+                button.classList.add("active");
+            }
+
+            const dot =
+                document.createElement("span");
+
+            dot.style.display =
+                "inline-block";
+
+            dot.style.width = "12px";
+            dot.style.height = "12px";
+            dot.style.borderRadius = "50%";
+            dot.style.background =
+                country.color;
+
+            dot.style.marginRight = "8px";
+
+            button.appendChild(dot);
+
+            button.appendChild(
+                document.createTextNode(
+                    country.name
+                )
+            );
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    selectedCountry = id;
+
+                    updateCountryList();
+                    draw();
+
+                }
+            );
+
+            list.appendChild(button);
+
+        }
+
+    }
+
+
+    // =========================================================
+    // ZOZNAM MIEST
+    // =========================================================
+
+    function updateCityList() {
+
+        const list =
+            get("cityList");
+
+        if (!list) {
+            return;
+        }
+
+        list.innerHTML = "";
+
+        for (const id in cities) {
+
+            const city = cities[id];
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+            button.className =
+                "city-btn";
+
+            if (selectedCity === id) {
+                button.classList.add("active");
+            }
+
+            button.textContent =
+                "🔴 " + city.name;
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    selectedCity = id;
+                    infraTool = "cityPlace";
+
+                    updateCityTools();
+                    updateCityList();
+                    draw();
+
+                }
+            );
+
+            list.appendChild(button);
+
+        }
+
+    }
+
+
+    // =========================================================
+    // REŽIMY
+    // =========================================================
+
+    function setMode(mode) {
+
+        currentMode = mode;
+
+        const panels = {
+
+            terrain:
+                get("terrainPanel"),
+
+            area:
+                get("areaPanel"),
+
+            country:
+                get("countryPanel"),
+
+            infra:
+                get("infraPanel")
+
+        };
+
+
+        for (const key in panels) {
+
+            const panel =
+                panels[key];
+
+            if (!panel) {
+                continue;
+            }
+
+            panel.classList.toggle(
+                "hidden",
+                key !== mode
+            );
+
+        }
+
+
+        // Tvoj HTML používa .layer-btn,
+        // nie .mode-tab.
+
+        document
+            .querySelectorAll(".layer-btn")
+            .forEach(button => {
+
+                button.classList.toggle(
+                    "active",
+                    button.id ===
+                    modeButtonId(mode)
+                );
+
+            });
+
+
+        draw();
+
+    }
+
+
+    function modeButtonId(mode) {
+
+        if (mode === "terrain") {
+            return "terrainLayerBtn";
+        }
+
+        if (mode === "area") {
+            return "areaLayerBtn";
+        }
+
+        if (mode === "country") {
+            return "countryLayerBtn";
+        }
+
+        if (mode === "infra") {
+            return "infraLayerBtn";
+        }
+
+        return "";
+
+    }
+
+
+    // =========================================================
+    // MESTÁ — NÁSTROJE
+    // =========================================================
+
+    function updateCityTools() {
+
+        const place =
+            get("cityPlaceBtn");
+
+        const eraser =
+            get("cityEraserBtn");
+
+        if (place) {
+
+            place.classList.toggle(
+                "active",
+                infraTool === "cityPlace"
+            );
+
+        }
+
+        if (eraser) {
+
+            eraser.classList.toggle(
+                "active",
+                infraTool === "cityEraser"
+            );
+
+        }
+
+    }
+
+
+    // =========================================================
+    // ZOOM
+    // =========================================================
+
+    function setZoom(
+        newZoom,
+        centerX = canvas.width / 2,
+        centerY = canvas.height / 2
+    ) {
+
+        newZoom =
+            clamp(
+                newZoom,
+                MIN_ZOOM,
+                MAX_ZOOM
+            );
+
+        const worldBeforeX =
+            (centerX - offsetX) / zoom;
+
+        const worldBeforeY =
+            (centerY - offsetY) / zoom;
+
+        zoom = newZoom;
+
+        offsetX =
+            centerX -
+            worldBeforeX * zoom;
+
+        offsetY =
+            centerY -
+            worldBeforeY * zoom;
+
+        updateZoomDisplay();
+        draw();
+
+    }
+
+
+    function updateZoomDisplay() {
+
+        const element =
+            get("zoomValue");
+
+        if (!element) {
+            return;
+        }
+
+        element.textContent =
+            Math.round(zoom * 100) + "%";
+
+    }
+
+
+    // =========================================================
+    // KOLESKO
+    // =========================================================
+
+    canvas.addEventListener(
+        "wheel",
+        event => {
+
+            event.preventDefault();
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+            const mouseX =
+                event.clientX -
+                rect.left;
+
+            const mouseY =
+                event.clientY -
+                rect.top;
+
+            const factor =
+                event.deltaY < 0
+                    ? 1.12
+                    : 0.89;
+
+            setZoom(
+                zoom * factor,
+                mouseX,
+                mouseY
+            );
+
+        },
+        { passive: false }
+    );
+
+
+    // =========================================================
+    // MYŠ — DOWN
+    // =========================================================
+
+    canvas.addEventListener(
+        "mousedown",
+        event => {
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+            const mouseX =
+                event.clientX -
+                rect.left;
+
+            const mouseY =
+                event.clientY -
+                rect.top;
+
+
+            // pravé tlačidlo = posun
+
+            if (event.button === 2) {
+
+                isPanning = true;
+
+                lastMouseX =
+                    event.clientX;
+
+                lastMouseY =
+                    event.clientY;
+
+                return;
+            }
+
+
+            if (event.button !== 0) {
+                return;
+            }
+
+
+            const pos =
+                screenToWorld(
+                    mouseX,
+                    mouseY
+                );
+
+            mouseWorldX = pos.x;
+            mouseWorldY = pos.y;
+
+            updateCoordinates();
+
+
+            if (currentMode === "terrain") {
+
+                mouseDown = true;
+
+                paintTerrain(
+                    pos.x,
+                    pos.y
+                );
+
+                return;
+
+            }
+
+
+            if (currentMode === "area") {
+
+                mouseDown = true;
+
+                paintArea(
+                    pos.x,
+                    pos.y
+                );
+
+                return;
+
+            }
+
+
+            if (currentMode === "country") {
+
+                handleCountryClick(
+                    pos.x,
+                    pos.y
+                );
+
+                return;
+
+            }
+
+
+            if (currentMode === "infra") {
+
+                if (
+                    infraTool === "cityPlace"
+                ) {
+
+                    placeCity(
+                        pos.x,
+                        pos.y
+                    );
+
+                }
+
+                else if (
+                    infraTool === "cityEraser"
+                ) {
+
+                    eraseCity(
+                        pos.x,
+                        pos.y
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
+
+    // =========================================================
+    // MYŠ — MOVE
+    // =========================================================
+
+    canvas.addEventListener(
+        "mousemove",
+        event => {
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+            const mouseX =
+                event.clientX -
+                rect.left;
+
+            const mouseY =
+                event.clientY -
+                rect.top;
+
+            const pos =
+                screenToWorld(
+                    mouseX,
+                    mouseY
+                );
+
+            mouseWorldX = pos.x;
+            mouseWorldY = pos.y;
+
+            updateCoordinates();
+
+
+            if (isPanning) {
+
+                offsetX +=
+                    event.clientX -
+                    lastMouseX;
+
+                offsetY +=
+                    event.clientY -
+                    lastMouseY;
+
+                lastMouseX =
+                    event.clientX;
+
+                lastMouseY =
+                    event.clientY;
+
+                draw();
+
+                return;
+
+            }
+
+
+            if (!mouseDown) {
+                return;
+            }
+
+
+            if (currentMode === "terrain") {
+
+                paintTerrain(
+                    pos.x,
+                    pos.y
+                );
+
+            }
+
+            else if (currentMode === "area") {
+
+                paintArea(
+                    pos.x,
+                    pos.y
+                );
+
+            }
+
+        }
+    );
+
+
+    // =========================================================
+    // MYŠ — UP
+    // =========================================================
+
+    window.addEventListener(
+        "mouseup",
+        event => {
+
+            if (event.button === 0) {
+                mouseDown = false;
+            }
+
+            if (event.button === 2) {
+                isPanning = false;
+            }
+
+        }
+    );
+
+
+    canvas.addEventListener(
+        "mouseleave",
+        () => {
+
+            mouseDown = false;
+
+            // necháme panning bežať,
+            // aby pravé tlačidlo fungovalo aj mimo canvasu
+
+        }
+    );
+
+
+    canvas.addEventListener(
+        "contextmenu",
+        event => {
+            event.preventDefault();
+        }
+    );
+
+
+    // =========================================================
+    // SÚRADNICE
+    // =========================================================
+
+    function updateCoordinates() {
+
+        const element =
+            get("coordinates");
+
+        if (!element) {
+            return;
+        }
+
+        if (
+            isInsideMap(
+                mouseWorldX,
+                mouseWorldY
+            )
+        ) {
+
+            element.textContent =
+                `X: ${mouseWorldX} | Y: ${mouseWorldY}`;
+
+        }
+        else {
+
+            element.textContent =
+                "X: — | Y: —";
+
+        }
+
+    }
+
+
+    // =========================================================
+    // HORNÉ TLAČIDLÁ
+    // =========================================================
+
+    const terrainLayerBtn =
+        get("terrainLayerBtn");
+
+    const areaLayerBtn =
+        get("areaLayerBtn");
+
+    const countryLayerBtn =
+        get("countryLayerBtn");
+
+    const infraLayerBtn =
+        get("infraLayerBtn");
+
+
+    if (terrainLayerBtn) {
+
+        terrainLayerBtn.addEventListener(
+            "click",
+            () => setMode("terrain")
+        );
+
+    }
+
+
+    if (areaLayerBtn) {
+
+        areaLayerBtn.addEventListener(
+            "click",
+            () => setMode("area")
+        );
+
+    }
+
+
+    if (countryLayerBtn) {
+
+        countryLayerBtn.addEventListener(
+            "click",
+            () => setMode("country")
+        );
+
+    }
+
+
+    if (infraLayerBtn) {
+
+        infraLayerBtn.addEventListener(
+            "click",
+            () => setMode("infra")
+        );
+
+    }
+
+
+    // =========================================================
+    // TERÉN
+    // =========================================================
 
     document
         .querySelectorAll(".terrain-btn")
@@ -2025,15 +2100,18 @@ document.addEventListener("DOMContentLoaded", () => {
                                 "active",
                                 btn === button
                             );
+
                         });
+
                 }
             );
+
         });
 
 
-    // ======================================================
+    // =========================================================
     // OBLASTI
-    // ======================================================
+    // =========================================================
 
     const createAreaBtn =
         get("createAreaBtn");
@@ -2044,11 +2122,16 @@ document.addEventListener("DOMContentLoaded", () => {
             "click",
             createArea
         );
+
     }
 
 
     const areaBrushBtn =
         get("areaBrushBtn");
+
+    const areaEraserBtn =
+        get("areaEraserBtn");
+
 
     if (areaBrushBtn) {
 
@@ -2062,22 +2145,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     "active"
                 );
 
-                const eraser =
-                    get("areaEraserBtn");
+                if (areaEraserBtn) {
 
-                if (eraser) {
-
-                    eraser.classList.remove(
+                    areaEraserBtn.classList.remove(
                         "active"
                     );
+
                 }
+
             }
         );
+
     }
 
-
-    const areaEraserBtn =
-        get("areaEraserBtn");
 
     if (areaEraserBtn) {
 
@@ -2091,23 +2171,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     "active"
                 );
 
-                const brush =
-                    get("areaBrushBtn");
+                if (areaBrushBtn) {
 
-                if (brush) {
-
-                    brush.classList.remove(
+                    areaBrushBtn.classList.remove(
                         "active"
                     );
+
                 }
+
             }
         );
+
     }
 
-
-    // ======================================================
-    // VEĽKOSŤ ŠTETCA
-    // ======================================================
 
     const brushSize =
         get("brushSize");
@@ -2123,22 +2199,15 @@ document.addEventListener("DOMContentLoaded", () => {
                         event.target.value
                     );
 
-                const value =
-                    get("brushSizeValue");
-
-                if (value) {
-
-                    value.textContent =
-                        areaBrushSize;
-                }
             }
         );
+
     }
 
 
-    // ======================================================
+    // =========================================================
     // KRAJINY
-    // ======================================================
+    // =========================================================
 
     const createCountryBtn =
         get("createCountryBtn");
@@ -2149,12 +2218,13 @@ document.addEventListener("DOMContentLoaded", () => {
             "click",
             createCountry
         );
+
     }
 
 
-    // ======================================================
+    // =========================================================
     // MESTÁ
-    // ======================================================
+    // =========================================================
 
     const createCityBtn =
         get("createCityBtn");
@@ -2165,11 +2235,16 @@ document.addEventListener("DOMContentLoaded", () => {
             "click",
             createCity
         );
+
     }
 
 
     const cityPlaceBtn =
         get("cityPlaceBtn");
+
+    const cityEraserBtn =
+        get("cityEraserBtn");
+
 
     if (cityPlaceBtn) {
 
@@ -2181,13 +2256,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     "cityPlace";
 
                 updateCityTools();
+
             }
         );
+
     }
 
-
-    const cityEraserBtn =
-        get("cityEraserBtn");
 
     if (cityEraserBtn) {
 
@@ -2199,17 +2273,23 @@ document.addEventListener("DOMContentLoaded", () => {
                     "cityEraser";
 
                 updateCityTools();
+
             }
         );
+
     }
 
 
-    // ======================================================
+    // =========================================================
     // ZOOM TLAČIDLÁ
-    // ======================================================
+    // =========================================================
 
     const zoomInBtn =
         get("zoomInBtn");
+
+    const zoomOutBtn =
+        get("zoomOutBtn");
+
 
     if (zoomInBtn) {
 
@@ -2220,13 +2300,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 setZoom(
                     zoom * 1.2
                 );
+
             }
         );
+
     }
 
-
-    const zoomOutBtn =
-        get("zoomOutBtn");
 
     if (zoomOutBtn) {
 
@@ -2237,26 +2316,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 setZoom(
                     zoom * 0.8
                 );
+
             }
         );
+
     }
 
 
-    // ======================================================
+    // =========================================================
     // ULOŽENIE
-    // ======================================================
-
-    const saveBtn =
-        get("saveBtn");
-
-    if (saveBtn) {
-
-        saveBtn.addEventListener(
-            "click",
-            saveWorld
-        );
-    }
-
+    // =========================================================
 
     function saveWorld() {
 
@@ -2271,8 +2340,8 @@ document.addEventListener("DOMContentLoaded", () => {
             areas,
             countries,
             cities
-        };
 
+        };
 
         const blob =
             new Blob(
@@ -2289,7 +2358,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             );
 
-
         const url =
             URL.createObjectURL(blob);
 
@@ -2297,7 +2365,8 @@ document.addEventListener("DOMContentLoaded", () => {
             document.createElement("a");
 
         link.href = url;
-        link.download = "my-world.json";
+        link.download =
+            "my-world.json";
 
         document.body.appendChild(link);
 
@@ -2306,24 +2375,26 @@ document.addEventListener("DOMContentLoaded", () => {
         link.remove();
 
         URL.revokeObjectURL(url);
+
     }
 
 
-    // ======================================================
-    // NAČÍTANIE
-    // ======================================================
+    const saveBtn =
+        get("saveBtn");
 
-    const loadBtn =
-        get("loadBtn");
+    if (saveBtn) {
 
-    if (loadBtn) {
-
-        loadBtn.addEventListener(
+        saveBtn.addEventListener(
             "click",
-            loadWorld
+            saveWorld
         );
+
     }
 
+
+    // =========================================================
+    // NAČÍTANIE
+    // =========================================================
 
     function loadWorld() {
 
@@ -2346,7 +2417,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-
                 const reader =
                     new FileReader();
 
@@ -2360,7 +2430,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                 reader.result
                             );
 
-
                         if (
                             !data.world ||
                             !data.areas ||
@@ -2371,6 +2440,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             throw new Error(
                                 "Neplatný súbor."
                             );
+
                         }
 
 
@@ -2382,6 +2452,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             throw new Error(
                                 "Nesprávna výška mapy."
                             );
+
                         }
 
 
@@ -2409,46 +2480,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         draw();
 
-
                         alert(
                             "Svet bol úspešne načítaný."
                         );
 
-                    } catch (error) {
+                    }
+                    catch (error) {
 
                         console.error(error);
 
                         alert(
                             "Nepodarilo sa načítať svet."
                         );
+
                     }
+
                 };
 
 
                 reader.readAsText(file);
+
             }
         );
 
 
         input.click();
+
     }
 
 
-    // ======================================================
-    // VYMAZANIE SVETA
-    // ======================================================
+    const loadBtn =
+        get("loadBtn");
 
-    const clearBtn =
-        get("clearBtn");
+    if (loadBtn) {
 
-    if (clearBtn) {
-
-        clearBtn.addEventListener(
+        loadBtn.addEventListener(
             "click",
-            clearWorld
+            loadWorld
         );
+
     }
 
+
+    // =========================================================
+    // VYMAZANIE SVETA
+    // =========================================================
 
     function clearWorld() {
 
@@ -2460,7 +2536,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!confirmed) {
             return;
         }
-
 
         createWorld();
 
@@ -2477,14 +2552,26 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCityList();
 
         draw();
+
     }
 
 
-    // ======================================================
-    // ZAČIATOČNÉ NASTAVENIE
-    // ======================================================
+    const clearBtn =
+        get("clearBtn");
 
-    resizeCanvas();
+    if (clearBtn) {
+
+        clearBtn.addEventListener(
+            "click",
+            clearWorld
+        );
+
+    }
+
+
+    // =========================================================
+    // ŠTART
+    // =========================================================
 
     updateZoomDisplay();
 
@@ -2496,13 +2583,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setMode("terrain");
 
+    // Dôležité:
+    // canvas dostane skutočnú veľkosť až po načítaní stránky.
 
-    // ======================================================
-    // HOTOVO
-    // ======================================================
+    resizeCanvas();
+
+    // ešte jedno vykreslenie pre istotu
+
+    requestAnimationFrame(() => {
+        resizeCanvas();
+        draw();
+    });
+
 
     console.log(
-        "My World Game: JavaScript úspešne načítaný."
+        "My World Game: mapa a JavaScript sú načítané."
     );
 
 });
