@@ -3,138 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌍 My World Game</title>
+
+    <title>My World Game</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
-    <h1>🌍 My World Game</h1>
+    <!-- HORNÁ LIŠTA -->
+    <header class="topbar">
 
-    <div class="layers">
-        <button class="layer-btn active" id="terrainLayerBtn">🟢 Terén</button>
-        <button class="layer-btn" id="areaLayerBtn">🟠 Oblasti</button>
-        <button class="layer-btn" id="countryLayerBtn">🔴 Krajiny</button>
-        <button class="layer-btn" id="infraLayerBtn">🟣 Infraštruktúra</button>
+        <div class="logo">
+            🌍 My World Game
+        </div>
+
+        <nav class="layers">
+
+            <button class="layer-btn active" id="terrainLayerBtn">
+                🟢 Terén
+            </button>
+
+            <button class="layer-btn" id="areaLayerBtn">
+                🟠 Oblasti
+            </button>
+
+            <button class="layer-btn" id="countryLayerBtn">
+                🔴 Krajiny
+            </button>
+
+            <button class="layer-btn" id="cityLayerBtn">
+                🟣 Mestá
+            </button>
+
+        </nav>
+
+    </header>
+
+
+    <!-- HLAVNÁ ČASŤ -->
+    <div class="main">
+
+        <!-- ĽAVÝ PANEL -->
+        <aside class="sidebar">
+
+            <!-- TERÉN -->
+            <section class="panel" id="terrainPanel">
+
+                <h2>🟢 Terén</h2>
+
+                <p class="description">
+                    Vyber terén a potom ním maľuj na mape.
+                </p>
+
+
+                <div class="terrain-grid">
+
+                    <button
+                        class="terrain-btn active"
+                        data-terrain="lowland">
+                        🌱 Nížina
+                    </button>
+
+                    <button
+                        class="terrain-btn"
+                        data-terrain="desert">
+                        🏜️ Púšť
+                    </button>
+
+                    <button
+                        class="terrain-btn"
+                        data-terrain="tundra">
+                        ❄️ Tundra
+                    </button>
+
+                    <button
+                        class="terrain-btn"
+                        data-terrain="mountain">
+                        ⛰️ Hory
+                    </button>
+
+                    <button
+                        class="terrain-btn"
+                        data-terrain="highMountain">
+                        🏔️ Veľhory
+                    </button>
+
+                    <button
+                        class="terrain-btn"
+                        data-terrain="river">
+                        🌊 Rieka
+                    </button>
+
+                    <button
+                        class="terrain-btn"
+                        data-terrain="sea">
+                        🌊 More
+                    </button>
+
+                </div>
+
+
+                <!-- ŠTETEC -->
+                <div class="tool-section">
+
+                    <h3>Štetec</h3>
+
+                    <label for="brushSize">
+                        Veľkosť:
+                    </label>
+
+                    <input
+                        type="range"
+                        id="brushSize"
+                        min="1"
+                        max="10"
+                        value="1">
+
+                    <span id="brushSizeValue">
+                        1
+                    </span>
+
+                </div>
+
+
+                <!-- GUMA -->
+                <button
+                    class="eraser-btn"
+                    id="terrainEraserBtn">
+
+                    🧽 Guma
+
+                </button>
+
+
+                <div class="info-box">
+
+                    <strong>Ovládanie</strong>
+
+                    <p>
+                        Ľavé tlačidlo – maľovanie
+                    </p>
+
+                    <p>
+                        Pravé tlačidlo – posúvanie mapy
+                    </p>
+
+                    <p>
+                        Koliesko – zoom
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- OBLASTI -->
+            <section
+                class="panel hidden"
+                id="areaPanel">
+
+                <h2>🟠 Oblasti</h2>
+
+                <p class="description">
+                    Editor oblastí bude pridaný v ďalšom kroku.
+                </p>
+
+            </section>
+
+
+            <!-- KRAJINY -->
+            <section
+                class="panel hidden"
+                id="countryPanel">
+
+                <h2>🔴 Krajiny</h2>
+
+                <p class="description">
+                    Editor krajín bude pridaný v ďalšom kroku.
+                </p>
+
+            </section>
+
+
+            <!-- MESTÁ -->
+            <section
+                class="panel hidden"
+                id="cityPanel">
+
+                <h2>🟣 Mestá</h2>
+
+                <p class="description">
+                    Editor miest bude pridaný v ďalšom kroku.
+                </p>
+
+            </section>
+
+
+            <!-- ULOŽENIE -->
+            <section class="save-section">
+
+                <button id="saveBtn">
+                    💾 Uložiť mapu
+                </button>
+
+                <button id="loadBtn">
+                    📂 Načítať mapu
+                </button>
+
+                <button id="resetBtn" class="danger">
+                    🗑️ Vymazať mapu
+                </button>
+
+            </section>
+
+        </aside>
+
+
+        <!-- MAPA -->
+        <main class="game-area" id="gameArea">
+
+            <canvas id="gameCanvas"></canvas>
+
+
+            <!-- SÚRADNICE -->
+            <div class="coordinates" id="coordinates">
+                X: 0 | Y: 0
+            </div>
+
+
+            <!-- ZOOM -->
+            <div class="zoom-controls">
+
+                <button id="zoomOutBtn">
+                    −
+                </button>
+
+                <span id="zoomValue">
+                    100%
+                </span>
+
+                <button id="zoomInBtn">
+                    +
+                </button>
+
+            </div>
+
+        </main>
+
     </div>
-</header>
-
-<div class="main">
-
-    <aside id="sidebar">
-
-        <!-- TERÉN -->
-        <section id="terrainPanel" class="layer-panel">
-
-            <h2>🟢 Terén</h2>
-
-            <div class="terrain-buttons">
-                <button class="terrain-btn active" data-terrain="lowland">🌱 Nížina</button>
-                <button class="terrain-btn" data-terrain="forest">🌲 Les</button>
-                <button class="terrain-btn" data-terrain="mountain">⛰️ Hory</button>
-                <button class="terrain-btn" data-terrain="highMountain">🏔️ Vysoké hory</button>
-                <button class="terrain-btn" data-terrain="desert">🏜️ Púšť</button>
-                <button class="terrain-btn" data-terrain="tundra">❄️ Tundra</button>
-                <button class="terrain-btn" data-terrain="river">🌊 Rieka</button>
-                <button class="terrain-btn" data-terrain="sea">🌊 More</button>
-            </div>
-
-            <p class="info">
-                Kliknutím alebo ťahaním myši upravuj terén.
-            </p>
-
-        </section>
 
 
-        <!-- OBLASTI -->
-        <section id="areaPanel" class="layer-panel hidden">
-
-            <h2>🟠 Oblasti</h2>
-
-            <button id="createAreaBtn">＋ Vytvoriť oblasť</button>
-
-            <div id="areaList"></div>
-
-            <div class="tool-row">
-                <button id="areaBrushBtn">🖌️ Štetec</button>
-                <button id="areaEraserBtn">🧽 Guma</button>
-            </div>
-
-            <label>
-                Veľkosť štetca:
-                <input id="brushSize" type="number" min="1" max="10" value="1">
-            </label>
-
-        </section>
-
-
-        <!-- KRAJINY -->
-        <section id="countryPanel" class="layer-panel hidden">
-
-            <h2>🔴 Krajiny</h2>
-
-            <button id="createCountryBtn">＋ Vytvoriť krajinu</button>
-
-            <div id="countryList"></div>
-
-            <p class="info">
-                Vyber krajinu a klikni na oblasť.
-            </p>
-
-        </section>
-
-
-        <!-- INFRAŠTRUKTÚRA -->
-        <section id="infraPanel" class="layer-panel hidden">
-
-            <h2>🟣 Infraštruktúra</h2>
-
-            <h3>🏙️ Mestá</h3>
-
-            <button id="createCityBtn">＋ Vytvoriť mesto</button>
-
-            <div class="tool-row">
-                <button id="cityPlaceBtn">🔴 Umiestniť</button>
-                <button id="cityEraserBtn">🧽 Guma</button>
-            </div>
-
-            <div id="cityList"></div>
-
-        </section>
-
-
-        <!-- SPOLOČNÉ -->
-        <div class="common-buttons">
-
-            <button id="saveBtn">💾 Uložiť svet</button>
-            <button id="loadBtn">📂 Načítať svet</button>
-            <button id="clearBtn" class="danger">🗑️ Vymazať svet</button>
-
-        </div>
-
-    </aside>
-
-
-    <main id="gameArea">
-
-        <canvas id="gameCanvas"></canvas>
-
-        <div id="coordinates">
-            X: 0 | Y: 0
-        </div>
-
-        <div class="zoom-controls">
-            <button id="zoomOutBtn">−</button>
-            <span id="zoomValue">100%</span>
-            <button id="zoomInBtn">+</button>
-        </div>
-
-    </main>
-
-</div>
-
-<script src="game.js"></script>
+    <script src="game.js"></script>
 
 </body>
 </html>
