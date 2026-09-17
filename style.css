@@ -1,441 +1,306 @@
-```css
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html,
 body {
     width: 100%;
     height: 100%;
-}
-
-body {
-    margin: 0;
-
-    background: #1b1b1b;
-    color: #eee;
-
-    font-family: Arial, sans-serif;
-
     overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
 }
 
 
-/* =========================
-   HORNÁ LIŠTA
-========================= */
+/* HEADER */
 
 header {
-    height: 70px;
+    width: 100%;
+    height: 68px;
 
     display: flex;
     align-items: center;
 
-    gap: 30px;
+    padding: 0 18px;
 
-    padding: 0 20px;
+    background: #1b1b1b;
+    border-bottom: 1px solid #333;
 
-    background: #252525;
-
-    border-bottom: 1px solid #444;
+    gap: 25px;
 }
 
 header h1 {
-    margin: 0;
-
+    font-size: 21px;
     white-space: nowrap;
-
-    font-size: 22px;
 }
 
 
-/* =========================
-   REŽIMY
-========================= */
+/* LAYERS */
 
 .layers {
     display: flex;
-
-    align-items: center;
-
-    gap: 8px;
+    gap: 6px;
 }
 
 .layer-btn {
     border: none;
+    background: #292929;
+    color: #ccc;
 
-    padding: 11px 16px;
+    padding: 10px 13px;
 
-    background: #333;
-    color: #ddd;
-
-    border-radius: 6px;
+    border-radius: 7px;
 
     cursor: pointer;
 
-    font-weight: bold;
-
-    transition: background 0.15s;
+    font-size: 13px;
 }
 
 .layer-btn:hover {
-    background: #444;
+    background: #3a3a3a;
 }
 
 .layer-btn.active {
-    background: #666;
-
+    background: #444;
     color: white;
-
-    box-shadow: inset 0 -3px 0 white;
 }
 
 
-/* =========================
-   HLAVNÁ ČASŤ
-========================= */
+/* MAIN */
 
 .main {
     display: flex;
 
     width: 100%;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 68px);
 }
 
 
-/* =========================
-   ĽAVÝ PANEL
-========================= */
+/* SIDEBAR */
 
 #sidebar {
     width: 290px;
-
     min-width: 290px;
 
     height: 100%;
 
+    overflow-y: auto;
+
     padding: 15px;
 
-    background: #242424;
-
-    border-right: 1px solid #444;
-
-    overflow-y: auto;
+    background: #1b1b1b;
+    border-right: 1px solid #333;
 }
 
 .layer-panel h2 {
-    margin-top: 0;
-
-    margin-bottom: 18px;
-
-    font-size: 19px;
+    margin-bottom: 15px;
+    font-size: 18px;
 }
 
 .layer-panel h3 {
-    margin-top: 18px;
-
-    margin-bottom: 8px;
-
-    color: #ccc;
-
-    font-size: 15px;
+    margin: 15px 0 10px;
 }
-
-
-/* =========================
-   SKRYTÉ PANELY
-========================= */
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 
-/* =========================
-   ZOZNAMY
-========================= */
+/* TERRAIN */
 
-.terrain-list,
-.area-list,
-.country-list,
-.city-list {
-    display: flex;
+.terrain-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+}
 
-    flex-direction: column;
+.terrain-btn {
+    padding: 10px 6px;
 
-    gap: 6px;
+    border: 1px solid #444;
+    border-radius: 6px;
 
-    margin-bottom: 20px;
+    background: #292929;
+    color: white;
+
+    cursor: pointer;
+}
+
+.terrain-btn:hover {
+    background: #3a3a3a;
+}
+
+.terrain-btn.active {
+    background: #555;
+    border-color: white;
 }
 
 
-/* =========================
-   TLAČIDLÁ TERÉNU
-========================= */
+/* BUTTONS */
 
-.terrain-btn,
-.area-btn,
-.country-btn,
-.city-btn {
+button {
+    font-family: inherit;
+}
+
+.layer-panel > button,
+.common-buttons button,
+.tool-row button {
     width: 100%;
 
     padding: 10px;
 
-    border: 1px solid #555;
+    margin-bottom: 7px;
 
-    border-radius: 5px;
+    border: 1px solid #444;
+    border-radius: 6px;
 
-    background: #303030;
-    color: #eee;
-
-    cursor: pointer;
-
-    text-align: left;
-
-    transition: background 0.15s;
-}
-
-.terrain-btn:hover,
-.area-btn:hover,
-.country-btn:hover,
-.city-btn:hover {
-    background: #3d3d3d;
-}
-
-.terrain-btn.active,
-.area-btn.active,
-.country-btn.active,
-.city-btn.active {
-    outline: 2px solid white;
-
-    background: #444;
-}
-
-
-/* =========================
-   NÁSTROJE
-========================= */
-
-.tools {
-    display: flex;
-
-    gap: 7px;
-
-    margin-bottom: 12px;
-}
-
-.tool-btn {
-    flex: 1;
-
-    padding: 9px;
-
-    border: 1px solid #555;
-
-    border-radius: 5px;
-
-    background: #303030;
-    color: #eee;
-
-    cursor: pointer;
-}
-
-.tool-btn:hover {
-    background: #414141;
-}
-
-.tool-btn.active {
-    background: #666;
-
-    border-color: #aaa;
-}
-
-
-/* =========================
-   HLAVNÉ TLAČIDLO
-========================= */
-
-.main-action {
-    width: 100%;
-
-    padding: 11px;
-
-    margin-bottom: 12px;
-
-    border: 1px solid #666;
-
-    border-radius: 5px;
-
-    background: #4a4a4a;
+    background: #292929;
     color: white;
 
     cursor: pointer;
-
-    font-weight: bold;
 }
 
-.main-action:hover {
-    background: #5a5a5a;
+.layer-panel > button:hover,
+.common-buttons button:hover,
+.tool-row button:hover {
+    background: #3a3a3a;
+}
+
+.tool-row {
+    display: flex;
+    gap: 6px;
+}
+
+.tool-row button {
+    flex: 1;
 }
 
 
-/* =========================
-   ŠTETEC
-========================= */
+/* INPUT */
 
-.brush-label {
+label {
     display: block;
-
-    margin-bottom: 6px;
-
+    margin-top: 10px;
     color: #ccc;
+    font-size: 14px;
 }
 
-input[type="range"] {
-    width: 100%;
+input {
+    width: 70px;
 
-    margin-bottom: 20px;
+    margin-top: 6px;
+    padding: 7px;
+
+    background: #111;
+    color: white;
+
+    border: 1px solid #444;
+    border-radius: 5px;
 }
 
 
-/* =========================
-   INFO
-========================= */
+/* LISTS */
+
+#areaList,
+#countryList,
+#cityList {
+    margin-top: 12px;
+}
+
+.list-item {
+    padding: 8px;
+
+    margin-bottom: 5px;
+
+    background: #292929;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
+.list-item:hover {
+    background: #3a3a3a;
+}
+
+
+/* INFO */
 
 .info {
-    color: #aaa;
+    margin-top: 15px;
+
+    color: #999;
 
     font-size: 13px;
-
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
 
-/* =========================
-   INFRAŠTRUKTÚRA
-========================= */
+/* COMMON */
 
-.infra-section {
-    margin-top: 10px;
-
-    padding-top: 10px;
-
-    border-top: 1px solid #444;
-}
-
-
-/* =========================
-   SPOLOČNÁ SEKCIA
-========================= */
-
-.common-section {
+.common-buttons {
     margin-top: 20px;
 
     padding-top: 15px;
 
-    border-top: 1px solid #444;
+    border-top: 1px solid #333;
+}
+
+.danger {
+    background: #492222 !important;
+}
+
+.danger:hover {
+    background: #653030 !important;
 }
 
 
-/* =========================
-   ULOŽIŤ / NAČÍTAŤ / VYMAZAŤ
-========================= */
-
-.save-btn,
-.load-btn,
-.danger-btn {
-    display: block;
-
-    width: 100%;
-
-    padding: 10px;
-
-    margin-bottom: 8px;
-
-    border: 1px solid #555;
-
-    border-radius: 5px;
-
-    cursor: pointer;
-
-    text-align: center;
-
-    font-weight: bold;
-}
-
-.save-btn {
-    background: #365d3d;
-
-    color: white;
-}
-
-.save-btn:hover {
-    background: #43734b;
-}
-
-.load-btn {
-    background: #3b4e65;
-
-    color: white;
-}
-
-.load-btn:hover {
-    background: #4a6280;
-}
-
-.danger-btn {
-    background: #633636;
-
-    color: white;
-}
-
-.danger-btn:hover {
-    background: #7a4141;
-}
-
-
-/* =========================
-   MAPA
-========================= */
+/* GAME */
 
 #gameArea {
     position: relative;
 
     flex: 1;
 
+    min-width: 0;
+    min-height: 0;
+
     overflow: hidden;
 
-    background: #111;
+    background: #101820;
 }
 
 #gameCanvas {
-    display: block;
+    position: absolute;
+
+    left: 0;
+    top: 0;
 
     width: 100%;
     height: 100%;
 
-    cursor: crosshair;
+    display: block;
 
-    user-select: none;
+    cursor: crosshair;
 }
 
 
-/* =========================
-   SÚRADNICE
-========================= */
+/* COORDINATES */
 
 #coordinates {
     position: absolute;
 
-    top: 15px;
-    left: 15px;
-
-    z-index: 10;
+    left: 10px;
+    bottom: 10px;
 
     padding: 7px 10px;
 
-    border-radius: 5px;
-
     background: rgba(0, 0, 0, 0.75);
+
+    border-radius: 5px;
 
     color: white;
 
@@ -445,162 +310,93 @@ input[type="range"] {
 }
 
 
-/* =========================
-   ZOOM
-========================= */
+/* ZOOM */
 
 .zoom-controls {
     position: absolute;
 
-    right: 15px;
-    bottom: 15px;
+    right: 12px;
+    bottom: 12px;
 
     display: flex;
-
     align-items: center;
 
     gap: 5px;
 
-    padding: 6px;
-
-    border-radius: 6px;
+    padding: 5px;
 
     background: rgba(0, 0, 0, 0.75);
+
+    border-radius: 6px;
 }
 
 .zoom-controls button {
-    width: 35px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
 
-    border: 1px solid #555;
-
-    border-radius: 4px;
+    border: none;
+    border-radius: 5px;
 
     background: #333;
     color: white;
 
+    font-size: 20px;
+
     cursor: pointer;
-
-    font-size: 16px;
-
-    font-weight: bold;
 }
 
 .zoom-controls button:hover {
-    background: #444;
+    background: #555;
 }
 
 #zoomValue {
-    min-width: 55px;
+    min-width: 50px;
 
     text-align: center;
-
-    color: #ddd;
 
     font-size: 13px;
 }
 
 
-/* =========================
-   SCROLLBAR
-========================= */
+/* SCROLLBAR */
 
-#sidebar::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 8px;
 }
 
-#sidebar::-webkit-scrollbar-track {
-    background: #1d1d1d;
+::-webkit-scrollbar-track {
+    background: #151515;
 }
 
-#sidebar::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background: #444;
-
-    border-radius: 4px;
-}
-
-#sidebar::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    border-radius: 5px;
 }
 
 
-/* =========================
-   MENŠIE OBRAZOVKY
-========================= */
+/* MOBILE */
 
-@media (max-width: 900px) {
+@media (max-width: 800px) {
 
     header {
         height: auto;
+        min-height: 68px;
 
-        min-height: 70px;
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 10px;
+        flex-wrap: wrap;
 
         padding: 10px;
     }
 
     .main {
-        height: calc(100vh - 130px);
+        height: calc(100vh - 110px);
     }
 
     #sidebar {
-        width: 250px;
-
-        min-width: 250px;
+        width: 230px;
+        min-width: 230px;
     }
 
     .layers {
-        width: 100%;
-
         flex-wrap: wrap;
     }
-
-    .layer-btn {
-        font-size: 11px;
-
-        padding: 9px 11px;
-    }
 }
-
-
-@media (max-width: 650px) {
-
-    #sidebar {
-        width: 220px;
-
-        min-width: 220px;
-
-        padding: 10px;
-    }
-
-    header h1 {
-        font-size: 18px;
-    }
-
-    .layer-btn {
-        padding: 8px 10px;
-
-        font-size: 10px;
-    }
-
-    .terrain-btn,
-    .area-btn,
-    .country-btn,
-    .city-btn {
-        padding: 8px;
-
-        font-size: 12px;
-    }
-
-    .tool-btn {
-        padding: 7px;
-
-        font-size: 12px;
-    }
-}
-```
