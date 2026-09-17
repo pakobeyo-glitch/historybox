@@ -1,6 +1,6 @@
 ```css
 /* =========================================
-   MY WORLD GAME — STYLE.CSS
+   MY WORLD GAME
    ========================================= */
 
 * {
@@ -22,11 +22,12 @@ body {
     color: #eee;
 }
 
+
 /* =========================================
    HORNÁ LIŠTA
    ========================================= */
 
-.topbar {
+header {
     position: relative;
     z-index: 1000;
 
@@ -42,13 +43,12 @@ body {
     border-bottom: 1px solid #3d3d3d;
 
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-
-    pointer-events: auto;
 }
+
 
 /* Názov hry */
 
-.logo {
+header h1 {
     height: 100%;
 
     min-width: 245px;
@@ -66,19 +66,15 @@ body {
     color: #fff;
 
     white-space: nowrap;
-
     user-select: none;
 }
 
-.logo span {
-    margin-left: 8px;
-}
 
 /* =========================================
-   TABS
+   HORNÉ TLAČIDLÁ
    ========================================= */
 
-.mode-tabs {
+.layers {
     height: 100%;
 
     display: flex;
@@ -87,11 +83,10 @@ body {
     gap: 3px;
 
     margin-left: 10px;
-
-    pointer-events: auto;
 }
 
-.mode-tab {
+
+.layer-btn {
     position: relative;
     z-index: 1001;
 
@@ -118,28 +113,30 @@ body {
         background 0.15s ease,
         color 0.15s ease;
 
-    pointer-events: auto;
-
     user-select: none;
 }
 
-.mode-tab:hover {
+
+.layer-btn:hover {
     background: #2d2d2d;
     color: #fff;
 }
 
-.mode-tab:active {
+
+.layer-btn:active {
     background: #333;
 }
 
+
 /* Aktívna karta */
 
-.mode-tab.active {
+.layer-btn.active {
     color: #fff;
     background: #292929;
 }
 
-.mode-tab.active::after {
+
+.layer-btn.active::after {
     content: "";
 
     position: absolute;
@@ -155,23 +152,25 @@ body {
     background: currentColor;
 }
 
+
 /* Farby aktívnych kariet */
 
-.mode-tab[data-mode="terrain"].active {
+#terrainLayerBtn.active {
     color: #4caf50;
 }
 
-.mode-tab[data-mode="area"].active {
+#areaLayerBtn.active {
     color: #ff9800;
 }
 
-.mode-tab[data-mode="country"].active {
+#countryLayerBtn.active {
     color: #f44336;
 }
 
-.mode-tab[data-mode="infra"].active {
+#infraLayerBtn.active {
     color: #ab47bc;
 }
+
 
 /* =========================================
    HLAVNÝ LAYOUT
@@ -185,6 +184,7 @@ body {
 
     overflow: hidden;
 }
+
 
 /* =========================================
    SIDEBAR
@@ -200,5 +200,548 @@ body {
 
     padding: 16px;
 
-    background: #
+    background: #202020;
+
+    border-right: 1px solid #3d3d3d;
+
+    overflow-y: auto;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================
+   PANELY
+   ========================================= */
+
+.layer-panel {
+    display: block;
+}
+
+.layer-panel.hidden {
+    display: none;
+}
+
+
+.layer-panel h2 {
+    margin-bottom: 16px;
+
+    font-size: 17px;
+    color: #fff;
+}
+
+
+.layer-panel h3,
+.common-section h3 {
+    margin-top: 16px;
+    margin-bottom: 10px;
+
+    font-size: 14px;
+    color: #ddd;
+}
+
+
+/* =========================================
+   TERÉN
+   ========================================= */
+
+.terrain-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+
+.terrain-btn {
+    width: 100%;
+
+    padding: 10px 12px;
+
+    border: 1px solid #444;
+    border-radius: 6px;
+
+    background: #292929;
+    color: #ddd;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+
+.terrain-btn:hover {
+    background: #353535;
+    border-color: #666;
+}
+
+
+.terrain-btn.active {
+    background: #3b3b3b;
+    border-color: #4caf50;
+
+    color: #fff;
+}
+
+
+/* =========================================
+   VŠEOBECNÉ TLAČIDLÁ
+   ========================================= */
+
+button {
+    font-family: inherit;
+}
+
+
+.main-action,
+.tool-btn,
+.save-btn,
+.load-btn,
+.danger-btn {
+    position: relative;
+    z-index: 501;
+
+    width: 100%;
+
+    min-height: 38px;
+
+    margin-bottom: 8px;
+
+    padding: 8px 12px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    pointer-events: auto;
+}
+
+
+/* hlavná akcia */
+
+.main-action {
+    border: 1px solid #555;
+
+    background: #333;
+    color: #fff;
+}
+
+
+.main-action:hover {
+    background: #404040;
+}
+
+
+/* nástroje */
+
+.tools {
+    display: flex;
+    gap: 6px;
+
+    margin-top: 10px;
+}
+
+
+.tools .tool-btn {
+    flex: 1;
+    width: auto;
+
+    margin-bottom: 0;
+}
+
+
+.tool-btn {
+    border: 1px solid #555;
+
+    background: #292929;
+    color: #ddd;
+}
+
+
+.tool-btn:hover {
+    background: #383838;
+}
+
+
+.tool-btn.active {
+    border-color: #ff9800;
+
+    background: #3a3020;
+    color: #fff;
+}
+
+
+/* =========================================
+   SLIDER
+   ========================================= */
+
+.brush-label {
+    display: block;
+
+    margin-top: 14px;
+    margin-bottom: 7px;
+
+    font-size: 13px;
+    color: #bbb;
+}
+
+
+#brushSize {
+    width: 100%;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   ZOZNAMY
+   ========================================= */
+
+.area-list,
+.country-list,
+.city-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    max-height: 220px;
+
+    overflow-y: auto;
+}
+
+
+.area-btn,
+.country-btn,
+.city-btn {
+    width: 100%;
+
+    padding: 8px 10px;
+
+    border: 1px solid #444;
+    border-radius: 5px;
+
+    background: #292929;
+
+    color: #ddd;
+
+    text-align: left;
+
+    cursor: pointer;
+}
+
+
+.area-btn:hover,
+.country-btn:hover,
+.city-btn:hover {
+    background: #363636;
+}
+
+
+.area-btn.active,
+.country-btn.active,
+.city-btn.active {
+    border-color: #888;
+
+    background: #3b3b3b;
+
+    color: #fff;
+}
+
+
+/* =========================================
+   INFO
+   ========================================= */
+
+.info {
+    margin-top: 14px;
+
+    padding: 10px;
+
+    border-radius: 6px;
+
+    background: #292929;
+
+    color: #aaa;
+
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+
+/* =========================================
+   SPOLOČNÁ SEKCIA
+   ========================================= */
+
+.common-section {
+    margin-top: 20px;
+
+    padding-top: 16px;
+
+    border-top: 1px solid #3d3d3d;
+}
+
+
+.save-btn {
+    border: 1px solid #4caf50;
+
+    background: #263528;
+    color: #9be29f;
+}
+
+
+.save-btn:hover {
+    background: #304432;
+}
+
+
+.load-btn {
+    border: 1px solid #4d8ac7;
+
+    background: #263442;
+    color: #9ecbfa;
+}
+
+
+.load-btn:hover {
+    background: #304354;
+}
+
+
+.danger-btn {
+    border: 1px solid #a33;
+
+    background: #3a2424;
+    color: #ffaaaa;
+}
+
+
+.danger-btn:hover {
+    background: #4a2929;
+}
+
+
+/* =========================================
+   MAPA
+   ========================================= */
+
+#gameArea {
+    position: relative;
+    z-index: 1;
+
+    flex: 1;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+
+    background: #101010;
+}
+
+
+/* Canvas */
+
+#gameCanvas {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    cursor: crosshair;
+
+    user-select: none;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================
+   SÚRADNICE
+   ========================================= */
+
+#coordinates {
+    position: absolute;
+
+    left: 12px;
+    bottom: 12px;
+
+    z-index: 20;
+
+    padding: 7px 10px;
+
+    border-radius: 5px;
+
+    background: rgba(0, 0, 0, 0.72);
+
+    color: #fff;
+
+    font-size: 12px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   ZOOM
+   ========================================= */
+
+.zoom-controls {
+    position: absolute;
+
+    right: 14px;
+    bottom: 14px;
+
+    z-index: 20;
+
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 6px;
+
+    border-radius: 7px;
+
+    background: rgba(30, 30, 30, 0.9);
+
+    border: 1px solid #444;
+}
+
+
+.zoom-controls button {
+    width: 34px;
+    height: 34px;
+
+    border: 1px solid #555;
+    border-radius: 5px;
+
+    background: #292929;
+
+    color: #fff;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+
+.zoom-controls button:hover {
+    background: #3a3a3a;
+}
+
+
+.zoom-controls span {
+    min-width: 52px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    color: #ddd;
+}
+
+
+/* =========================================
+   SCROLLBAR
+   ========================================= */
+
+#sidebar::-webkit-scrollbar,
+.area-list::-webkit-scrollbar,
+.country-list::-webkit-scrollbar,
+.city-list::-webkit-scrollbar {
+    width: 7px;
+}
+
+
+#sidebar::-webkit-scrollbar-track,
+.area-list::-webkit-scrollbar-track,
+.country-list::-webkit-scrollbar-track,
+.city-list::-webkit-scrollbar-track {
+    background: #1b1b1b;
+}
+
+
+#sidebar::-webkit-scrollbar-thumb,
+.area-list::-webkit-scrollbar-thumb,
+.country-list::-webkit-scrollbar-thumb,
+.city-list::-webkit-scrollbar-thumb {
+    background: #555;
+
+    border-radius: 5px;
+}
+
+
+#sidebar::-webkit-scrollbar-thumb:hover,
+.area-list::-webkit-scrollbar-thumb:hover,
+.country-list::-webkit-scrollbar-thumb:hover,
+.city-list::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 900px) {
+
+    header h1 {
+        min-width: 190px;
+        font-size: 14px;
+    }
+
+    .layer-btn {
+        min-width: 105px;
+        padding: 0 10px;
+        font-size: 11px;
+    }
+
+    #sidebar {
+        width: 250px;
+        min-width: 250px;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    header h1 {
+        min-width: auto;
+
+        padding-right: 12px;
+
+        border-right: none;
+
+        font-size: 13px;
+    }
+
+    .layers {
+        margin-left: 5px;
+    }
+
+    .layer-btn {
+        min-width: 80px;
+        padding: 0 7px;
+        font-size: 10px;
+    }
+
+    #sidebar {
+        width: 220px;
+        min-width: 220px;
+    }
+
+}
 ```
